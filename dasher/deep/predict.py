@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+# coding: utf-8
+
 import os
 import nibabel as nib
 import numpy as np
@@ -7,6 +11,7 @@ from keras_contrib.layers import InstanceNormalization
 from hypermatter.deep.metrics import (dice_coefficient, dice_coefficient_loss, dice_coef, dice_coef_loss,
                                       weighted_dice_coefficient_loss, weighted_dice_coefficient)
 import warnings
+
 warnings.simplefilter("ignore", RuntimeWarning)
 warnings.simplefilter("ignore", FutureWarning)
 
@@ -14,7 +19,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
 
 def load_old_model_json(model_json):
-
     print("\n loading pre-trained model")
 
     custom_objects = {'dice_coefficient_loss': dice_coefficient_loss, 'dice_coefficient': dice_coefficient,
@@ -25,12 +29,14 @@ def load_old_model_json(model_json):
         custom_objects["InstanceNormalization"] = InstanceNormalization
     except ImportError:
         pass
+
     try:
         return model_from_json(model_json, custom_objects=custom_objects)
     except ValueError as error:
         if 'InstanceNormalization' in str(error):
-            raise ValueError(str(error) + "\n\nPlease install keras-contrib to use InstanceNormalization:\n"
-                                          "'pip install git+https://www.github.com/keras-team/keras-contrib.git'")
+            raise ValueError(str(error) +
+                             "\n\n Please install keras-contrib for InstanceNormalization:\n"
+                             "'pip install git+https://www.github.com/keras-team/keras-contrib.git'")
         else:
             raise error
 
@@ -53,17 +59,7 @@ def get_prediction_labels(prediction, threshold=0.5, labels=None):
 def prediction_to_image(prediction, affine, label_map=False, threshold=0.5, labels=None):
     if prediction.shape[1] == 1:
         data = prediction[0, 0]
-        # if label_map:
-        #     label_map_data = np.zeros(prediction[0, 0].shape, np.int8)
-        #     if labels:
-        #         if isinstance(labels, int):
-        #             label = 1
-        #         else:
-        #             label = labels[0]
-        #     else:
-        #         label = 1
-        #     label_map_data[data > threshold] = label -- will threshold after resampling to original
-        #     data = label_map_data
+
     elif prediction.shape[1] > 1:
         if label_map:
             label_map_data = get_prediction_labels(prediction, threshold=threshold, labels=labels)
@@ -87,7 +83,6 @@ def multi_class_prediction(prediction, affine):
 
 def run_test_case(test_data, model_json, model_weights, affine,
                   output_label_map=False, threshold=0.5, labels=None):
-
     json_file = open(model_json, 'r')
     loaded_model_json = json_file.read()
     json_file.close()
