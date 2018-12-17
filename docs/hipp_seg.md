@@ -5,7 +5,7 @@
 Click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear.
 
 <p align="center">
-      <img src="hipp_1.PNG" alt="alt text" width="445" height="138"/>
+      <img src="hipp_1.PNG" alt="hippocampus pop-up window" width="445" height="138"/>
 </p>
 
 Click "Select t1w" and chose your T1 image. Click "Run". Type your desired output name in the "out" box. Your output file will automatically appear in your t1w folder.
