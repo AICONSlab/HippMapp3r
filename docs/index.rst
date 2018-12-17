@@ -14,8 +14,8 @@ Welcome to DASH3R's documentation!
    hipp_seg
 
 
-Indices and tables
-==================
+Indices and tablesss
+====================
 
 * :ref:`genindex`
 * :ref:`modindex`
