@@ -10,6 +10,8 @@ Welcome to DASH3R's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   install
+   hipp_seg
 
 
 Indices and tables
