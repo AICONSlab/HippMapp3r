@@ -35,7 +35,10 @@ where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 
 ## Download deep models
 
-    wget bla
+    download model files from:
+    https://drive.google.com/open?id=10aVCDurd_mcB49mJfwm658IZg33u0pd2
+
+    and place them in the "models" directory
 
 ## For tab completion
     pip3 install argcomplete
