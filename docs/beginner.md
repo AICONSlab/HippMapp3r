@@ -1,4 +1,4 @@
-# Beginner Tutorial
+# Beginner Info
 
 ## For GUI
 You can hover any of buttons in the GUI to see a brief description of the command.

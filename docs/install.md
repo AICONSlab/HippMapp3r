@@ -17,22 +17,6 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
     pip install -e .[{dependency}] -process-dependency-links
 where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 
-
-## Setup virtual environment (if wanted)
-
-### create environment
-    conda create -n dasher python=3.6 anaconda
-
-### activate the environment (start session -- needed every time)
-    source activate dasher
-
-### install dependencies
-    pip install -e .[{dependency}] --process-dependency-links
-where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
-
-### deactivate (end session)
-    source deactivate
-
 ## Download deep models
 
     download model files from:
@@ -50,6 +34,20 @@ where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 
     git pull
 
+## Setup virtual environment (if wanted)
+
+### create environment
+    conda create -n dasher python=3.6 anaconda
+
+### activate the environment (start session -- needed every time)
+    source activate dasher
+
+### install dependencies
+    pip install -e .[{dependency}] --process-dependency-links
+where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
+
+### deactivate (end session)
+    source deactivate
 
 ### if you want to delete the environment!
     conda env remove --name dasher
