@@ -11,8 +11,10 @@ Deep Automated Segmentation of the Hippocampus in 3/thRee dimensions (pronounced
 *DASH3R* is a CNN-based segmentation technique of the whole hippocampus
 using MRI images from BrainLab
 
-[![IMAGE ALT TEXT](https://github.com/mgoubran/DASH3R/docs/image/graph_abstract.png)]
-
+.. image:: images/graph_abstract.png
+    :width: 450px
+    :alt: Graph abstract
+    :align: center
 
 .. toctree::
    :maxdepth: 2
