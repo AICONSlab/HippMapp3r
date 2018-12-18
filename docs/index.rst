@@ -12,7 +12,7 @@ Deep Automated Segmentation of the Hippocampus in 3/thRee dimensions (pronounced
 using MRI images from BrainLab
 
 .. image:: images/graph_abstract.png
-    :width: 450px
+    :width: 550px
     :alt: Graph abstract
     :align: center
 
@@ -23,7 +23,6 @@ using MRI images from BrainLab
    install
    hipp_seg
    beginner
-   gallery
    issues
    docker
 

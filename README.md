@@ -7,7 +7,7 @@ using MRI images from BrainLab
 
 <p align="center">
       <img src="docs/images/graph_abstract.png" alt="hippocampus pop-up window"
-      width="445" height="138"/>
+      width="600" height="250"/>
 </p>
 
 

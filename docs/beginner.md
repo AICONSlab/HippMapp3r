@@ -12,6 +12,11 @@ You can get the command usage info by click the "Help" box on any of the pop-up 
       <img src="help_1.png" alt="alt text" width="400" height="250"/>
 </p>
 
+## File conversion
+
+## Bias correction
+
+
 ## QC
 QC files are automatically generated for some commands in a sub-folder within the subject folder.
 QC files can also be created through the GUI or command line.
@@ -19,6 +24,8 @@ QC files are .png images that show a series of slices in the brain to
 help you quickly evaluate if your command worked successfully,
 especially if you have run multiple subjects.
 
+## Hippocampal volumes
+Stats
 
 ## Logs
 Log files are automatically generated in a sub-folder within the subject folder.
