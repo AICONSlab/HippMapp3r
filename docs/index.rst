@@ -19,7 +19,7 @@ using MRI images from BrainLab
    beginner
    hipp_seg
    modules
-   images
+   gallery
    issues
    docker
 
