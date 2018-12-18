@@ -4,14 +4,14 @@
 For the main required Python packages (numpy, scipy, etc.) we recommend using
 [Anaconda for Python 3.6](https://www.continuum.io/downloads)
 
-## Install package and dependencies for HyperMatter
+## Install package and dependencies for DASH3R
 
 ### install package
-    git clone https://github.com/mgoubran/hypermatter.git hypermatter
+    git clone https://github.com/mgoubran/DASH3R.git dasher
 
         (or install zip file and uncompress)
 
-    cd hypermatter
+    cd dasher
 
 ### install dependencies (if want to setup virtual env skip and move to next section)
     pip install -e .[{dependency}] -process-dependency-links
@@ -21,10 +21,10 @@ where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 ## Setup virtual environment (if wanted)
 
 ### create environment
-    conda create -n hypermatter python=3.6 anaconda
+    conda create -n dasher python=3.6 anaconda
 
 ### activate the environment (start session -- needed every time)
-    source activate hypermatter
+    source activate dasher
 
 ### install dependencies
     pip install -e .[{dependency}] --process-dependency-links
@@ -43,10 +43,10 @@ where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 
 ## To update the package
 
-    cd hypermatter
+    cd dasher
 
     git pull
 
 
 ### if you want to delete the environment!
-    conda env remove --name hypermatter
+    conda env remove --name dasher

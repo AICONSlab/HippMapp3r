@@ -20,8 +20,8 @@
 # -- Project information -----------------------------------------------------
 
 project = 'DASH3R'
-copyright = '2018, Maged Goubran, Edward Ntiri, Melissa Holmes, Hassan Akhavein, Dr. Sandra Black'
-author = 'Maged Goubran, Edward Ntiri, Melissa Holmes, Hassan Akhavein, Dr. Sandra Black'
+copyright = '2018, BrainLab'
+author = 'Maged Goubran, Edward Ntiri, Melissa Holmes, Hassan Akhavein, Sandra Black'
 
 # The short X.Y version
 version = ''
@@ -134,7 +134,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'DASH3R.tex', 'DASH3R Documentation',
-     'Maged Goubran, Edward Ntiri, Melissa Holmes, Hassan Akhavein, Dr. Sandra Black', 'manual'),
+     'Maged Goubran, Edward Ntiri, Melissa Holmes, Hassan Akhavein, Sandra Black', 'manual'),
 ]
 
 

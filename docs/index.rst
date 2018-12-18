@@ -6,6 +6,11 @@
 Welcome to DASH3R's documentation!
 ==================================
 
+*DASH3R*: Deep Automated Segmentation of the Hippocampus in 3/thRee dimensions (pronounced dasher)
+
+DASH3R is a CNN-based segmentation technique of the whole hippocamus
+using MRI images from BrainLab
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
@@ -14,7 +19,7 @@ Welcome to DASH3R's documentation!
    hipp_seg
 
 
-Indices and tablesss
+Indices and tables
 ====================
 
 * :ref:`genindex`
