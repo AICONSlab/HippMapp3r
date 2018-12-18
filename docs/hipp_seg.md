@@ -1,4 +1,4 @@
-# Segment Hippocampus
+# Tutorials
 
 ## GUI
 

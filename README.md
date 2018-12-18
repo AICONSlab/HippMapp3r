@@ -5,6 +5,9 @@
 DASH3R is a CNN-based segmentation technique of the whole hippocamus
 using MRI images from BrainLab
 
-Check out our documentation to learn more
+____________________________
+
+For more details, see our [docs](https://dash3r.readthedocs.io).
+
 
 

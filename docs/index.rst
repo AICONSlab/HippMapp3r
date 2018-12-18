@@ -16,8 +16,12 @@ using MRI images from BrainLab
    :caption: Contents:
 
    install
+   beginner
    hipp_seg
-
+   modules
+   images
+   issues
+   docker
 
 Indices and tables
 ====================
