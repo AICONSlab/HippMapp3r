@@ -5,7 +5,7 @@
 import os
 import subprocess
 import sys
-import hypermatter
+import dasher
 from pathlib import Path
 from PyQt5 import QtGui, QtCore, QtWidgets
 
@@ -43,13 +43,13 @@ class HorzTabWidget(QtWidgets.QTabWidget):
 
 
 def capture_help_fn(fn_name):
-    proc = subprocess.Popen("hypermatter %s -h" % fn_name, shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen("dash3r %s -h" % fn_name, shell=True, stdout=subprocess.PIPE)
     out = proc.communicate()[0]
     out_str = out.decode("utf-8")
     return out_str
 
 
-modules = ['Conversion', 'Registration', 'Segmentation', 'Pre-Process', 'QC', 'Statistics', 'Workflows']
+modules = ['Conversion', 'Segmentation', 'Pre-Process', 'QC', 'Statistics',]
 
 nested_dict = {
 
@@ -61,56 +61,16 @@ nested_dict = {
                 'opts': '-t filetype -v img -f out',
                 'helpmsg': ''
             },
-            1: {
-                'name': 'To Standard',
-                'opts': 'segment_hfb',
-                'helpmsg': ''
-            },
-        }
-    },
-
-    'Registration': {
-        'functions': {
-            0: {
-                'name': 'Affine',
-                'script': 'reg_aladin',
-                'opts': '-t register_aladin -v ref flo -f out',
-                'helpmsg': 'Registers two images with an affine or rigid transform'
-            },
         }
     },
 
     'Segmentation': {
         'functions': {
             0: {
-                'name': 'Head from Brain',
-                'script': 'seg_hfb',
-                'opts': '-t seg_hfb -d subj -v t1w t2w flair -f rmcereb out',
-                'helpmsg': 'Brain extraction (skull-striping) using a trained CNN'
-            },
-            1: {
                 'name': 'Hippocampus',
                 'script': 'seg_hipp',
                 'opts': '-t seg_hipp -v t1w -f out',
                 'helpmsg': 'Segments hippocampus using a trained CNN'
-            },
-            2: {
-                'name': 'Stroke',
-                'script': 'seg_stroke',
-                'opts': '-t seg_stroke -d subj -v t1w t2w flair -f out',
-                'helpmsg': 'Segments stroke using a trained CNN'
-            },
-            3: {
-                'name': 'Ventricles',
-                'script': 'seg_vent',
-                'opts': '-t seg_vent -d subj -v t1w t2w flair -f out',
-                'helpmsg': 'Segments ventricles using a trained CNN'
-            },
-            4: {
-                'name': '3-Tissue',
-                'script': 'seg_tissue',
-                'opts': '-t seg_tissue -v img -f out',
-                'helpmsg': 'Segments tissue classes (GM, WM, CSF) using FSL FAST'
             },
         }
     },
@@ -129,12 +89,6 @@ nested_dict = {
     'QC': {
         'functions': {
             0: {
-                'name': 'Registration QC',
-                'script': 'reg_qc',
-                'opts': '-t reg_qc -v img ref -f out',
-                'helpmsg': 'Creates tiled mosaic of moving image from registration overlaid on reference image'
-            },
-            1: {
                 'name': 'Segmentation QC',
                 'script': 'seg_qc',
                 'opts': '-t seg_qc -v img seg -f out',
@@ -157,37 +111,6 @@ nested_dict = {
             },
         }
     },
-
-    'Workflows': {
-        'functions': {
-            0: {
-                'name': 'N4 and register to T1',
-                'script': 'flow_n4reg',
-                'opts': '-t flow_n4reg -d subj',
-                'helpmsg': 'Bias field correct, and register multi-contrasts to T1'
-            },
-            1: {
-                'name': 'BrainLab Stage 1',
-                'script': 'flow_stg1',
-                'opts': '-t flow_stg1 -d subj',
-                'helpmsg': 'Bias field correct, register sequences to T1, brain extract and remove cerebellum'
-            },
-            2: {
-                'name': 'BrainLab Stage 2',
-                'script': 'flow_stg2',
-                'opts': '-t flow_stg2 -d subj',
-                'helpmsg': 'Segment tissue classes (GM, WM, CSF), ventricles and hippocampus'
-            },
-            3: {
-                'name': 'Run group',
-                'script': 'run_group',
-                'opts': '-t run_group -d group -v test',
-                # 'opts': '-t run_group -d group -f run_fn fn_opts',
-                'helpmsg': 'Runs a specific hypermatter function over a group of subjects'
-            },
-        }
-    },
-
 }
 
 
@@ -219,8 +142,8 @@ def main():
     mainwidget.setFont(font)
     mainwidget.move(QtWidgets.QApplication.desktop().screen().rect().center() - mainwidget.rect().center())
 
-    ver = hypermatter.__version__
-    mainwidget.setWindowTitle("HyperMatter %s" % ver)
+    ver = dasher.__version__
+    mainwidget.setWindowTitle("DASH3R %s" % ver)
 
     p = mainwidget.palette()
     # p.setColor(mainwidget.backgroundRole(), QtCore.Qt.black)

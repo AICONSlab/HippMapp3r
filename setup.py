@@ -37,13 +37,13 @@ setup(
     ],
     install_requires=[
         'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras', 'nilearn', 'scikit-learn',
-        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5', 'guzzle_sphinx_theme'
+        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
         "dasher": ["tensorflow>=1.4.0"],
         "dasher_gpu": ["tensorflow-gpu>=1.4.0"],
     },
-    entry_points={'console_scripts': ['hypermatter=hypermatter.cli:main']},
+    entry_points={'console_scripts': ['dash3r=dasher.segment.dasher:main']},
     keywords=[
         'neuroscience dementia lesion stroke white-matter-hyperintensity brain-atlas mri neuroimaging',
         'medical-imaging biomedical image-processing image-registration image-segmentation',
