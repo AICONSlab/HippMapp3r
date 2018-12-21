@@ -7,7 +7,7 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
 ## Install package and dependencies for HyperMatter
 
 ### install package
-    git clone https://github.com/mgoubran/hypermatter.git hypermatter
+    git clone https://github.com/mgoubran/DASH3R.git DASH3R
 
         (or install zip file and uncompress)
 
@@ -21,10 +21,10 @@ where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 ## Setup virtual environment (if wanted)
 
 ### create environment
-    conda create -n hypermatter python=3.6 anaconda
+    conda create -n DASH3R python=3.6 anaconda
 
 ### activate the environment (start session -- needed every time)
-    source activate hypermatter
+    source activate DASH3R
 
 ### install dependencies
     pip install -e .[{dependency}] --process-dependency-links
@@ -43,7 +43,7 @@ where dependency is either "tf_gpu" or if you have a gpu, or "tf" otherwise.
 
 ## To update the package
 
-    cd hypermatter
+    cd DASH3R
 
     git pull
 
