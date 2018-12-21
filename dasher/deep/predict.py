@@ -8,7 +8,7 @@ import numpy as np
 
 from keras.models import load_model, model_from_json
 from keras_contrib.layers import InstanceNormalization
-from hypermatter.deep.metrics import (dice_coefficient, dice_coefficient_loss, dice_coef, dice_coef_loss,
+from dasher.deep.metrics import (dice_coefficient, dice_coefficient_loss, dice_coef, dice_coef_loss,
                                       weighted_dice_coefficient_loss, weighted_dice_coefficient)
 import warnings
 
