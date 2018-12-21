@@ -1,18 +1,18 @@
-# Segment Hippocampus
+# Segmentation tutorials
 
 ## GUI
 
 Click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear.
 
 <p align="center">
-      <img src="hipp_1.PNG" alt="hippocampus pop-up window" width="445" height="138"/>
+      <img src="images/hipp_1.PNG" alt="hippocampus pop-up window" width="445" height="138"/>
 </p>
 
 Click "Select t1w" and chose your T1 image. Click "Run". Type your desired output name in the "out" box. Your output file will automatically appear in your t1w folder.
 
 ## Command Line
 
-    hypermatter seg_hipp
+    dasher
     
     Optional arguments:
     -s , --subj       input subject
@@ -23,8 +23,8 @@ Click "Select t1w" and chose your T1 image. Click "Run". Type your desired outpu
     -ss , --session   input session for longitudinal studies
     
     Examples:
-    hypermatter seg_hipp -s subjectname -b
-    hypermatter seg_hipp -t1 subject_T1_nu.nii.gz -o subject_hipp.nii.gz
+    dasher -s subjectname -b
+    dasher -t1 subject_T1_nu.nii.gz -o subject_hipp.nii.gz
 
 [![IMAGE ALT TEXT](https://img.youtube.com/vi/Uqn897ul5jw/0.jpg)](https://www.youtube.com/watch?v=Uqn897ul5jw "Hipp Seg")
 
