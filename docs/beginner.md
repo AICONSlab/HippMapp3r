@@ -45,6 +45,14 @@ They can also be created through the GUI or command line:
 
     dash3r seg_qc -h
 
+The QC image should look like this:
+
+<p align="center">
+      <img src="images/hipp_qc_corr.png" alt="hippocampus pop-up window"
+      width="600" height="220"/>
+</p>
+
+
 ## Logs
 Log files are automatically generated in a sub-folder within the subject folder.
 They are .txt files that contain information regarding the command
