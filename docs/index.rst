@@ -21,8 +21,8 @@ using MRI images from BrainLab
    :caption: Contents:
 
    install
-   hipp_seg
    beginner
+   hipp_seg
    issues
    docker
 

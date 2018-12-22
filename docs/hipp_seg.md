@@ -12,7 +12,7 @@ Click "Select t1w" and chose your T1 image. Click "Run". Type your desired outpu
 
 ## Command Line
 
-    dasher
+    dash3r seg_hipp
     
     Optional arguments:
     -s , --subj       input subject
@@ -23,8 +23,8 @@ Click "Select t1w" and chose your T1 image. Click "Run". Type your desired outpu
     -ss , --session   input session for longitudinal studies
     
     Examples:
-    dasher -s subjectname -b
-    dasher -t1 subject_T1_nu.nii.gz -o subject_hipp.nii.gz
+    dash3r seg_hipp -s subjectname -b
+    dash3r seg_hipp -t1 subject_T1_nu.nii.gz -o subject_hipp.nii.gz
 
 [![IMAGE ALT TEXT](https://img.youtube.com/vi/Uqn897ul5jw/0.jpg)](https://www.youtube.com/watch?v=Uqn897ul5jw "Hipp Seg")
 
