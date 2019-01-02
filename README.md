@@ -3,11 +3,13 @@
 Deep Automated Segmentation of the Hippocampus in 3/thRee dimensions (pronounced dasher)
 
 *DASH3R* is a CNN-based segmentation technique of the whole hippocampus
-using MRI images from BrainLab
+using MRI images from BrainLab.
+It can deal with brains with extensive atrophy and segments the hippocampi in seconds.
+It uses a T1-weighted image as the only input and segments both with-skull and skull-stripped images.
 
 <p align="center">
       <img src="docs/images/graph_abstract.png" alt="hippocampus pop-up window"
-      width="600" height="250"/>
+      width="600" height="220"/>
 </p>
 
 
