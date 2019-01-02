@@ -156,7 +156,7 @@ def main():
     hyper_mother = Path(gui_file).parents[1]
 
     pic = QtWidgets.QLabel()
-    pixmap = QtGui.QPixmap("%s/docs/hypericon.png" % hyper_mother)
+    pixmap = QtGui.QPixmap("%s/docs/dash3r_icon.png" % hyper_mother)
 
     pixmaps = pixmap.scaled(270, 150)  # QtCore.Qt.KeepAspectRatio
     pic.setPixmap(pixmaps)
