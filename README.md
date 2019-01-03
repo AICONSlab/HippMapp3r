@@ -9,7 +9,7 @@ It uses a T1-weighted image as the only input and segments both with-skull and s
 
 <p align="center">
       <img src="docs/images/graph_abstract.png" alt="hippocampus pop-up window"
-      width="600" height="220"/>
+      width="600" height="200"/>
 </p>
 
 
