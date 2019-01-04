@@ -40,6 +40,6 @@ Your output file will automatically appear in your t1w folder.
 The output should look like this:
 
 <p align="center">
-      <img src="_images/3d_snap.png" alt="hippocampus seg"
+      <img src="images/3d_snap.png" alt="hippocampus seg"
       width="400" height="300"/>
 </p>
