@@ -49,7 +49,7 @@ def capture_help_fn(fn_name):
     return out_str
 
 
-modules = ['Conversion', 'Segmentation', 'Pre-Process', 'QC', 'Statistics',]
+modules = ['Conversion', 'Pre-Process', 'Segmentation', 'QC', 'Statistics',]
 
 nested_dict = {
 
@@ -58,8 +58,19 @@ nested_dict = {
             0: {
                 'name': 'File Type',
                 'script': 'filetype',
-                'opts': '-t filetype -v img -f out',
+                'opts': '-t filetype -v in_img -f out',
                 'helpmsg': ''
+            },
+        }
+    },
+
+    'Pre-Process': {
+        'functions': {
+            0: {
+                'name': 'Bias Correct',
+                'script': 'bias_corr',
+                'opts': '-t bias_corr -v in_img -f out',
+                'helpmsg': 'Bias correct using N4'
             },
         }
     },
@@ -71,17 +82,6 @@ nested_dict = {
                 'script': 'seg_hipp',
                 'opts': '-t seg_hipp -v t1w -f out',
                 'helpmsg': 'Segments hippocampus using a trained CNN'
-            },
-        }
-    },
-
-    'Pre-Process': {
-        'functions': {
-            0: {
-                'name': 'Bias Correct',
-                'script': 'bias_corr',
-                'opts': '-t bias_corr -v img -f out',
-                'helpmsg': 'Bias correct using N4'
             },
         }
     },
@@ -102,7 +102,7 @@ nested_dict = {
             0: {
                 'name': 'Hippocampal Volume Summary',
                 'script': 'stats_hp',
-                'opts': '-t stats_hp -v -f out',
+                'opts': '-t stats_hp -v in_dir -f out_csv',
                 'helpmsg': 'Generates volumetric summary of hippocampus segmentations'
             },
         }

@@ -136,7 +136,7 @@ def get_dname(main, labels, indir):
 
 
 def parse_inputs(fn_name, labels, linedits, vols, dirs, fields):
-    cmd = "hypermatter %s" % fn_name
+    cmd = "dash3r %s" % fn_name
 
     if vols:
         for v, vol in enumerate(vols):
@@ -161,7 +161,7 @@ def parse_inputs(fn_name, labels, linedits, vols, dirs, fields):
                 fields_cmd = " --%s %s" % (field, in_field)
                 cmd = cmd + "%s" % fields_cmd
 
-    print("\n running HyperMatter with the following command: \n\n %s \n" % cmd)
+    print("\n running DASH3R with the following command: \n\n %s \n" % cmd)
 
     subprocess.Popen("%s" % cmd, shell=True,
                      stdin=None, stdout=None, stderr=None, close_fds=True)

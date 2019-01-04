@@ -21,7 +21,7 @@ You can get the command usage info by click the "Help" box on any of the pop-up 
 
 ## For Command Line
 
-You can see all the hypermatter commands by typing either of the following lines:
+You can see all the dasher commands by typing either of the following lines:
 
     dash3r -h
     dash3r --help

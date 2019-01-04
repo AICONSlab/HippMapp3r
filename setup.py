@@ -12,7 +12,7 @@ setup(
     zip_safe=False,
     license='GNU GENERAL PUBLIC LICENSE v3',
     url='https://github.com/mgoubran/DASH3R',  # change later
-    download_url='https://github.com/mgoubran/hypermatter',
+    download_url='https://github.com/mgoubran/DASH3R',
     long_description=open('README.md').read(),
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
