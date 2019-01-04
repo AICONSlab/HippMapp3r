@@ -8,12 +8,12 @@ Watch this video tutorial:
 
 -----
 
-Or follow this step:
+Or follow the steps below:
 
-Click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear.
+After opening the Dasher GUI, click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear. The window should look like the image below.
 
 <p align="center">
-      <img src="images/hipp_1.PNG" alt="hippocampus pop-up window" width="445" height="138"/>
+      <img src="_images/hipp_1.PNG" alt="hippocampus pop-up window" width="445" height="138"/>
 </p>
 
 Click "Select t1w" and chose your T1 image. Click "Run".
@@ -40,6 +40,6 @@ Your output file will automatically appear in your t1w folder.
 The output should look like this:
 
 <p align="center">
-      <img src="images/3d_snap.png" alt="hippocampus seg"
+      <img src="_images/3d_snap.png" alt="hippocampus seg"
       width="400" height="300"/>
 </p>
