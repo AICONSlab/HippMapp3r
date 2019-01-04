@@ -58,18 +58,8 @@ nested_dict = {
             0: {
                 'name': 'File Type',
                 'script': 'filetype',
-                'opts': '-t filetype -i img -o out',
+                'opts': '-t filetype -v img -f out',
                 'helpmsg': ''
-            },
-        }
-    },
-    'Pre-Process': {
-        'functions': {
-            0: {
-                'name': 'Bias Correct',
-                'script': 'bias_corr',
-                'opts': '-t bias_corr -i img -o out',
-                'helpmsg': 'Bias correct using N4'
             },
         }
     },
@@ -85,12 +75,23 @@ nested_dict = {
         }
     },
 
+    'Pre-Process': {
+        'functions': {
+            0: {
+                'name': 'Bias Correct',
+                'script': 'bias_corr',
+                'opts': '-t bias_corr -v img -f out',
+                'helpmsg': 'Bias correct using N4'
+            },
+        }
+    },
+
     'QC': {
         'functions': {
             0: {
                 'name': 'Segmentation QC',
                 'script': 'seg_qc',
-                'opts': '-t seg_qc -i img',
+                'opts': '-t seg_qc -v img seg -f out',
                 'helpmsg': 'Creates tiled mosaic of segmentation overlaid on structural image'
             }
         }
@@ -101,7 +102,7 @@ nested_dict = {
             0: {
                 'name': 'Hippocampal Volume Summary',
                 'script': 'stats_hp',
-                'opts': '-t stats_hp -i in_dir -o out_csv',
+                'opts': '-t stats_hp -v -f out',
                 'helpmsg': 'Generates volumetric summary of hippocampus segmentations'
             },
         }
