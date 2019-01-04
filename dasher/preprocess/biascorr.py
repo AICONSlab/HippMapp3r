@@ -69,7 +69,7 @@ def main(args):
     parser = parsefn()
     [in_img, mask_img, shrink, bspline, iters, thresh, out_img] = parse_inputs(parser, args)
 
-    if os.path.exists(out_img):
+    if out_img is not None and os.path.exists(out_img):
         print("\n %s already exists" % out_img)
 
     else:

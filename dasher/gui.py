@@ -58,8 +58,18 @@ nested_dict = {
             0: {
                 'name': 'File Type',
                 'script': 'filetype',
-                'opts': '-t filetype -v img -f out',
+                'opts': '-t filetype -i img -o out',
                 'helpmsg': ''
+            },
+        }
+    },
+    'Pre-Process': {
+        'functions': {
+            0: {
+                'name': 'Bias Correct',
+                'script': 'bias_corr',
+                'opts': '-t bias_corr -i img -o out',
+                'helpmsg': 'Bias correct using N4'
             },
         }
     },
@@ -75,23 +85,12 @@ nested_dict = {
         }
     },
 
-    'Pre-Process': {
-        'functions': {
-            0: {
-                'name': 'Bias Correct',
-                'script': 'bias_corr',
-                'opts': '-t bias_corr -v img -f out',
-                'helpmsg': 'Bias correct using N4'
-            },
-        }
-    },
-
     'QC': {
         'functions': {
             0: {
                 'name': 'Segmentation QC',
                 'script': 'seg_qc',
-                'opts': '-t seg_qc -v img seg -f out',
+                'opts': '-t seg_qc -i img',
                 'helpmsg': 'Creates tiled mosaic of segmentation overlaid on structural image'
             }
         }
@@ -100,14 +99,10 @@ nested_dict = {
     'Statistics': {
         'functions': {
             0: {
-                'name': 'Model Performance',
-                'opts': '',
-                'helpmsg': 'Bias field correct, and register multi-contrasts to T1'
-            },
-            1: {
-                'name': 'Subject Deviation',
-                'opts': '',
-                'helpmsg': 'Bias field correct, register to T1 brain extract and remove cerebellum'
+                'name': 'Hippocampal Volume Summary',
+                'script': 'stats_hp',
+                'opts': '-t stats_hp -i in_dir -o out_csv',
+                'helpmsg': 'Generates volumetric summary of hippocampus segmentations'
             },
         }
     },
