@@ -12,9 +12,7 @@ Or follow the steps below:
 
 After opening the Dasher GUI, click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear. The window should look like the image below.
 
-<p align="center">
-      <img src="_images/hipp_1.PNG" alt="hippocampus pop-up window" width="445" height="138"/>
-</p>
+![hippocampus pop up window](images/hipp_1.PNG)
 
 Click "Select t1w" and chose your T1 image. Click "Run".
 Type your desired output name in the "out" box.
@@ -37,9 +35,6 @@ Your output file will automatically appear in your t1w folder.
     dash3r seg_hipp -s subjectname -b
     dash3r seg_hipp -t1 subject_T1_nu.nii.gz -o subject_hipp.nii.gz
 
-The output should look like this:
+The output should look like this.:
 
-<p align="center">
-      <img src="images/3d_snap.png" alt="hippocampus seg"
-      width="400" height="300"/>
-</p>
+![hippocampus segmentation](images/3d_snap_resize.png)

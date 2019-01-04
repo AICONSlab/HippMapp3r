@@ -10,16 +10,11 @@ To start the GUI, type
 
 A GUI that looks like the image below should appear. You can hover any of buttons in the GUI to see a brief description of the command.
 
-
-<p align="center">
-      <img src="_images/dasher_gui.png" alt="Graphical user interface for the Dasher application" />
-</p>
+![Graphical user interface for the Dasher application](images/dasher_gui.png)
 
 You can get the command usage info by click the "Help" box on any of the pop-up windows.
 
-<p align="center">
-      <img src="_images/dasher_hipp_help.png" alt="Help screen for graphical user interface for Dasher application" width="400" height="250"/>
-</p>
+![Help screen for graphical user interface for Dasher application](images/dasher_hipp_help.png)
 
 ## For Command Line
 
@@ -49,10 +44,7 @@ They can also be created through the GUI or command line:
 
 The QC image should look like this:
 
-<p align="center">
-      <img src="_images/hipp_qc_corr.png" alt="hippocampus pop-up window"
-      width="600" height="220"/>
-</p>
+![Quality control imagefor hippocampus segmentation](images/hipp_qc_corr.png)
 
 
 ## Logs
