@@ -401,7 +401,7 @@ def main(args):
 
         print("\n generating mosaic image for qc")
 
-        seg_qc.main(['-i', '%s' % t1_ref, '-s', '%s' % prediction, '-g', '1'])
+        seg_qc.main(['-i', '%s' % t1_ref, '-s', '%s' % prediction, '-d', '1', '-g', '3'])
 
         endstatement.main('Hippocampus prediction and mosaic generation', '%s' % (datetime.now() - start_time))
 
