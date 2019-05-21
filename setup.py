@@ -37,7 +37,7 @@ setup(
     ],
     install_requires=[
         'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras', 'nilearn', 'scikit-learn',
-        'pandas', 'numpy', 'plotly', 'PyQt5'
+        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
         "dasher": ["tensorflow>=1.4.0"],
