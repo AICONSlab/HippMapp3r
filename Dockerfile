@@ -7,6 +7,11 @@ RUN apt-get update && apt-get install -y git wget build-essential g++ gcc cmake 
     apt-get install -y binutils make linux-source unzip && \
     apt install -y libsm6 libxext6 libfontconfig1 libxrender1 libgl1-mesa-glx
 
+# Install c3d
+RUN wget https://downloads.sourceforge.net/project/c3d/c3d/Nightly/c3d-nightly-Linux-x86_64.tar.gz && \
+    tar -xzvf c3d-nightly-Linux-x86_64.tar.gz && mv c3d-1.1.0-Linux-x86_64 /opt/c3d
+ENV PATH /opt/c3d/bin:${PATH}
+
 # Install miniconda
 RUN curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     bash Miniconda3-latest-Linux-x86_64.sh -p /opt/miniconda -b && \
@@ -16,9 +21,19 @@ ENV PATH=/opt/miniconda/bin:${PATH}
 # Install all needed packages based on pip installation
 RUN git clone https://github.com/mgoubran/DASH3R.git && \
     cd DASH3R && \
+    pip install git+https://www.github.com/keras-team/keras-contrib.git && \
     pip install -e .[dasher]
 
-EXPOSE 3000
+# Download models, store in directory
+RUN mkdir /DASH3R/models && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz" -O /DASH3R/models/hipp_model.json && \
+    rm -rf /tmp/cookies.txt && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2" -O /DASH3R/models/hipp_model_weights.h5 && \
+    rm -rf /tmp/cookies.txt && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1NmyniIkAk_wY2OW4YqEp9vF7IlVsRfrA' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1NmyniIkAk_wY2OW4YqEp9vF7IlVsRfrA" -O /DASH3R/models/hipp_zoom_model.json && \
+    rm -rf /tmp/cookies.txt && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=10uPh9byC-7Qj7Duwgh9gyQcSXH-CwWz1' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=10uPh9byC-7Qj7Duwgh9gyQcSXH-CwWz1" -O /DASH3R/models/hipp_zoom_model_weights.h5 && \
+    rm -rf /tmp/cookies.txt
 
 # Run dasher when the container launches
 ENTRYPOINT /bin/bash
