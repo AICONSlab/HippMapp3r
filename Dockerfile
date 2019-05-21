@@ -15,6 +15,7 @@ ENV PATH=/opt/miniconda/bin:${PATH}
 
 # Install all needed packages based on pip installation
 RUN git clone https://github.com/mgoubran/DASH3R.git && \
+    cd DASH3R && \
     pip install -e .[dasher]
 
 # Run dasher when the container launches

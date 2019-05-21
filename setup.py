@@ -33,11 +33,11 @@ setup(
         'Topic :: Scientific/Engineering :: Image Recognition',
     ],
     dependency_links=[
-        'git+https://www.github.com/keras-team/keras-contrib.git@master#egg=keras-contrib-0'
+        'git+https://github.com/keras-team/keras-contrib.git'
     ],
     install_requires=[
         'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras', 'nilearn', 'scikit-learn',
-        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
+        'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
         "dasher": ["tensorflow>=1.4.0"],
