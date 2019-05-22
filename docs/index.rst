@@ -27,6 +27,7 @@ It uses a T1-weighted image as the only input and segments both with-skull and s
    :maxdepth: 2
    :caption: Contents:
 
+   before_install
    install
    beginner
    hipp_seg
