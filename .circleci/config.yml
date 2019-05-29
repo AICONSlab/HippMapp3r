@@ -21,7 +21,7 @@ jobs:
           no_output_timeout: 60m
           command: |
             # Build docker image
-            dasher_VERSION=$(cat /tmp/src/DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g)
+            dasher_VERSION=$(cat /tmp/src/DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
             echo "dasher version is ${dasher_VERSION}"
             e=1 && for i in {1..5}; do
               docker build \
@@ -68,6 +68,6 @@ workflows:
             - run:
                 name: Publish Docker Tag with dasher Version
                 command: |
-                   DOCKER_TAG=$(docker run -it dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g)
+                   DOCKER_TAG=$(docker run -it dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
                    echo "Version for Docker tag is ${DOCKER_TAG}"
                    docker tag dasher:latest dasher:${DOCKER_TAG}
