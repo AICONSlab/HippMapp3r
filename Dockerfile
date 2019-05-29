@@ -32,6 +32,13 @@ ENV FSLDIR="/usr/share/fsl/5.0" \
 
 ENV PATH="/usr/lib/fsl/5.0:$PATH"
 
+# Install ANTs
+ENV ANTSPATH /opt/ANTs
+RUN mkdir -p /opt/ANTs && \
+    curl -sSL "https://dl.dropbox.com/s/2f4sui1z6lcgyek/ANTs-Linux-centos5_x86_64-v2.2.0-0740f91.tar.gz" \
+    | tar -xzC $ANTSPATH --strip-components 1
+ENV PATH $ANTSPATH/bin
+
 # Install miniconda
 RUN curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
     bash Miniconda3-latest-Linux-x86_64.sh -p /opt/miniconda -b && \
