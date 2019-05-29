@@ -67,6 +67,4 @@ workflows:
             - run:
                 name: Publish Docker Tag with dasher Version
                 command: |
-#                   DOCKER_TAG=$(docker run -it mgoubran/dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
-#                   echo "Version for Docker tag is ${DOCKER_TAG}"
                    docker tag mgoubran/dasher:latest mgoubran/dasher:0.1.0
