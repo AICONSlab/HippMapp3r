@@ -40,7 +40,7 @@ jobs:
 
              echo "Runing tests:"
 
-             dasher run -it dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz
+             docker run -it dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz
 
       - store_test_results:
           path: /home/circleci/out/tests
