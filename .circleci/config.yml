@@ -9,7 +9,7 @@ jobs:
   build:
     environment:
       - TZ: "/usr/share/zoneinfo/Canada/Toronto"
-      - CONTAINER_NAME: "dasher"
+      - CONTAINER_NAME: "mgoubran/dasher"
     docker:
       - image: docker:18.06.3-ce-git
     working_directory: /tmp/src/DASH3R
@@ -40,7 +40,7 @@ jobs:
 
              echo "Runing tests:"
 
-             docker run -it dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz
+             docker run -it mgoubran/dasher seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz
 
       - store_test_results:
           path: /home/circleci/out/tests
@@ -57,7 +57,7 @@ workflows:
   build_without_publishing_job:
     jobs:
       - docker-publish/publish:
-          image: dasher
+          image: mgoubran/dasher
           deploy: false
           tag: latest
           filters:
@@ -69,14 +69,14 @@ workflows:
             - run:
                 name: Preview Docker Tag for Build
                 command: |
-                   DOCKER_TAG=$(docker run -it dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
+                   DOCKER_TAG=$(docker run -it mgoubran/dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
                    echo "Version for Docker tag is ${DOCKER_TAG}"
 
   # This workflow will deploy images on merge to master only
   docker_with_lifecycle:
     jobs:
       - docker-publish/publish:
-          image: dasher
+          image: mgoubran/dasher
           tag: latest
           filters:
             branches:
@@ -85,6 +85,6 @@ workflows:
             - run:
                 name: Publish Docker Tag with dasher Version
                 command: |
-                   DOCKER_TAG=$(docker run -it dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
+                   DOCKER_TAG=$(docker run -it mgoubran/dasher:latest cat /DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
                    echo "Version for Docker tag is ${DOCKER_TAG}"
-                   docker tag dasher:latest dasher:${DOCKER_TAG}
+                   docker tag mgoubran/dasher:latest mgoubran/dasher:${DOCKER_TAG}
