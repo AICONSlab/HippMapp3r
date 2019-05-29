@@ -15,20 +15,22 @@ ENV PATH /opt/c3d/bin:${PATH}
 
 # FSL
 # Installing Neurodebian packages FSL
-RUN curl -sSL "http://neuro.debian.net/lists/$( lsb_release -c | cut -f2 ).us-ca.full" >> /etc/apt/sources.list.d/neurodebian.sources.list && \
-    apt-key add /usr/local/etc/neurodebian.gpg && \
-    (apt-key adv --refresh-keys --keyserver hkp://ha.pool.sks-keyservers.net 0xA5D32F012649A5A9 || true)
+RUN wget -O- http://neuro.debian.net/lists/xenial.us-tn.full | tee /etc/apt/sources.list.d/neurodebian.sources.list
+RUN apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32F012649A5A9
 
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-                    fsl-core=5.0.9-5~nd16.04+1 \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /var/tmp/*
+# Install FSL
+RUN apt-get update && apt-get install -y fsl
 
 ENV FSLDIR="/usr/share/fsl/5.0" \
     FSLOUTPUTTYPE="NIFTI_GZ" \
     FSLMULTIFILEQUIT="TRUE" \
     POSSUMDIR="/usr/share/fsl/5.0" \
     LD_LIBRARY_PATH="/usr/lib/fsl/5.0:$LD_LIBRARY_PATH" \
+    FSLTCLSH="/usr/bin/tclsh" \
+    FSLWISH="/usr/bin/wish" \
+    POSSUMDIR="/usr/share/fsl/5.0"
+
+ENV PATH="/usr/lib/fsl/5.0:${FSLDIR}/bin:$PATH"
 
 # Install miniconda
 RUN curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
