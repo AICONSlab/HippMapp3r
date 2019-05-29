@@ -30,7 +30,7 @@ ENV FSLDIR="/usr/share/fsl/5.0" \
     FSLWISH="/usr/bin/wish" \
     POSSUMDIR="/usr/share/fsl/5.0"
 
-ENV PATH="/usr/lib/fsl/5.0:${FSLDIR}/bin:$PATH"
+ENV PATH="/usr/lib/fsl/5.0:$PATH"
 
 # Install miniconda
 RUN curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh && \
