@@ -2,7 +2,6 @@
 
 Deep Automated Segmentation of the Hippocampus in 3/thRee dimensions (pronounced dasher)
 
-[![Github All Releases](https://img.shields.io/github/downloads/mgoubran/DASH3R/total.svg)]()
 
 
 *DASH3R* is a CNN-based segmentation technique of the whole hippocampus
