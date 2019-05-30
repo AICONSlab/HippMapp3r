@@ -9,10 +9,10 @@ jobs:
   build:
     environment:
       - TZ: "/usr/share/zoneinfo/Canada/Toronto"
-      - CONTAINER_NAME: "dasher"
+      - CONTAINER_NAME: "mgoubran/dasher"
     docker:
       - image: docker:18.06.3-ce-git
-    working_directory: /tmp/src/dasher
+    working_directory: /tmp/src/DASH3R
     steps:
       - checkout
       - setup_remote_docker
@@ -21,13 +21,13 @@ jobs:
           no_output_timeout: 60m
           command: |
             # Build docker image
-            dasher_VERSION=$(cat /tmp/src/dasher/version.txt)
+            dasher_VERSION=$(cat /tmp/src/DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
             echo "dasher version is ${dasher_VERSION}"
             e=1 && for i in {1..5}; do
               docker build \
                 --rm=false \
                 -t ${CONTAINER_NAME} \
-                -f /tmp/src/dasher/Dockerfile \
+                -f /tmp/src/DASH3R/Dockerfile \
                 --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
                 --build-arg VCS_REF=`git rev-parse --short HEAD` \
                 --build-arg VERSION="${CIRCLE_TAG:-$THISVERSION}" . \
@@ -39,8 +39,7 @@ jobs:
           command: |
 
              echo "Runing tests:"
-
-             dasher run -it dash3r seg_hipp -t1 /tmp/test_case/mprage.nii.gz
+             docker run --entrypoint bash -it mgoubran/dasher -c "dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz"
 
       - store_test_results:
           path: /home/circleci/out/tests
@@ -54,30 +53,11 @@ workflows:
             tags:
               only: /.*/
 
-  build_without_publishing_job:
-    jobs:
-      - docker-publish/publish:
-          image: dasher
-          deploy: false
-          tag: latest
-          filters:
-            branches:
-              ignore: 
-                - master
-                - docs*
-          after_build:
-            - run:
-                name: Preview Docker Tag for Build
-                command: |
-                   DOCKER_TAG=$(docker run --entrypoint /bin/cat dasher:latest /code/version.txt)
-                   echo "Version for Docker tag is ${DOCKER_TAG}"
-
-
   # This workflow will deploy images on merge to master only
   docker_with_lifecycle:
     jobs:
       - docker-publish/publish:
-          image: dasher
+          image: mgoubran/dasher
           tag: latest
           filters:
             branches:
@@ -86,6 +66,4 @@ workflows:
             - run:
                 name: Publish Docker Tag with dasher Version
                 command: |
-                   DOCKER_TAG=$(docker run --entrypoint /bin/cat dasher:latest /code/version.txt)
-                   echo "Version for Docker tag is ${DOCKER_TAG}"
-                   docker tag dasher:latest dasher:${DOCKER_TAG}
+                   docker tag mgoubran/dasher:latest mgoubran/dasher:0.1.0

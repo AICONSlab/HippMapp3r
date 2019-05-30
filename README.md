@@ -18,6 +18,3 @@ It uses a T1-weighted image as the only input and segments both with-skull and s
 ____________________________
 
 For more details, see our [docs](https://dash3r.readthedocs.io).
-
-
-
