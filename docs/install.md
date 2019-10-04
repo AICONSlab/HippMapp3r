@@ -8,11 +8,11 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
 
 1. Clone repository
 
-        git clone https://github.com/mgoubran/HippMapp3r.git hippmapper
+        git clone https://github.com/mgoubran/HippMapp3r.git HippMapp3r
 
         (or install zip file and uncompress)
 
-        cd hippmapper
+        cd HippMapp3r
 
     If you want to create a virtual environment where HippMapp3r can be run,
 
@@ -28,10 +28,14 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
         conda env remove --name hippmapper
 
 2. Install dependencies
+    
+    If the computer you are using has a GPU:
+    
+        pip install -e .[hippmapper_gpu]
 
-        pip install -e .[{option}] -process-dependency-links
-
-    If the computer you are using has a GPU, replace "option" with "hippmapper_gpu". Otherwise, replace it with "hippmapper"
+    If not:
+    
+        pip install -e .[hippmapper]
 
 3. Test the installation by running
 

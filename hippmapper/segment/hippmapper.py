@@ -19,6 +19,9 @@ from hippmapper.preprocess import biascorr, trim_like
 from hippmapper.qc import seg_qc
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
+import warnings
+
+warnings.simplefilter("ignore")
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 

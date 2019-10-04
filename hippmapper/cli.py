@@ -17,8 +17,9 @@ from hippmapper.preprocess import biascorr, trim_like
 from hippmapper.qc import seg_qc
 from hippmapper.stats import summary_hp_vols
 
-warnings.simplefilter("ignore", RuntimeWarning)
-warnings.simplefilter("ignore", FutureWarning)
+warnings.simplefilter("ignore")
+# warnings.simplefilter("ignore", RuntimeWarning)
+# warnings.simplefilter("ignore", FutureWarning)
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
