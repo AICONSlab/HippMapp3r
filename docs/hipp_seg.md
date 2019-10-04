@@ -10,7 +10,7 @@ Watch this video tutorial:
 
 Or follow the steps below:
 
-After opening the Dasher GUI, click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear. The window should look like the image below.
+After opening the HippMapper GUI, click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear. The window should look like the image below.
 
 ![hippocampus pop up window](images/hipp_1.PNG)
 

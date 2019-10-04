@@ -31,15 +31,15 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
 
         pip install -e .[{option}] -process-dependency-links
 
-    If the computer you are using has a GPU, replace "option" with "dasher_gpu". Otherwise, replace it with "dasher"
+    If the computer you are using has a GPU, replace "option" with "hippmapper_gpu". Otherwise, replace it with "hippmapper"
 
 3. Test the installation by running
 
-        dasher --help
+        hippmapper --help
         
    To confirm that the command line function works, and
    
-        dasher
+        hippmapper
         
    To launch the interactive GUI.
 

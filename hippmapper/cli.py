@@ -9,13 +9,13 @@ import os
 import sys
 import warnings
 
-from dasher import __version__
-from dasher import gui
-from dasher.segment import hippmapper
-from dasher.convert import filetype
-from dasher.preprocess import biascorr, trim_like
-from dasher.qc import seg_qc
-from dasher.stats import summary_hp_vols
+from hippmapper import __version__
+from hippmapper import gui
+from hippmapper.segment import hippmapper
+from hippmapper.convert import filetype
+from hippmapper.preprocess import biascorr, trim_like
+from hippmapper.qc import seg_qc
+from hippmapper.stats import summary_hp_vols
 
 warnings.simplefilter("ignore", RuntimeWarning)
 warnings.simplefilter("ignore", FutureWarning)
@@ -31,7 +31,7 @@ def run_filetype(args):
     filetype.main(args)
 
 
-def run_dasher(args):
+def run_hippmapper(args):
     hippmapper.main(args)
 
 
@@ -64,7 +64,7 @@ def get_parser():
     parser_seg_hipp = subparsers.add_parser('seg_hipp', add_help=False, parents=[hipp_parser],
                                             help="Segment hippocampus using a trained CNN",
                                             usage=hipp_parser.usage)
-    parser_seg_hipp.set_defaults(func=run_dasher)
+    parser_seg_hipp.set_defaults(func=run_hippmapper)
 
     # --------------
 

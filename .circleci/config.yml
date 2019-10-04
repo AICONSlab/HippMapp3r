@@ -9,7 +9,7 @@ jobs:
   build:
     environment:
       - TZ: "/usr/share/zoneinfo/Canada/Toronto"
-      - CONTAINER_NAME: "mgoubran/dasher"
+      - CONTAINER_NAME: "mgoubran/hippmapper"
     docker:
       - image: docker:18.06.3-ce-git
     working_directory: /tmp/src/DASH3R
@@ -21,8 +21,8 @@ jobs:
           no_output_timeout: 60m
           command: |
             # Build docker image
-            dasher_VERSION=$(cat /tmp/src/DASH3R/dasher/__init__.py | tr -dc '0-9' | sed 's/./&./g')
-            echo "dasher version is ${dasher_VERSION}"
+            dasher_VERSION=$(cat /tmp/src/DASH3R/hippmapper/__init__.py | tr -dc '0-9' | sed 's/./&./g')
+            echo "hippmapper version is ${dasher_VERSION}"
             e=1 && for i in {1..5}; do
               docker build \
                 --rm=false \
@@ -39,7 +39,7 @@ jobs:
           command: |
 
              echo "Runing tests:"
-             docker run --entrypoint bash -it mgoubran/dasher -c "dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz"
+             docker run --entrypoint bash -it mgoubran/hippmapper -c "dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz"
 
       - store_test_results:
           path: /home/circleci/out/tests
@@ -57,13 +57,13 @@ workflows:
   docker_with_lifecycle:
     jobs:
       - docker-publish/publish:
-          image: mgoubran/dasher
+          image: mgoubran/hippmapper
           tag: latest
           filters:
             branches:
              only: master
           after_build:
             - run:
-                name: Publish Docker Tag with dasher Version
+                name: Publish Docker Tag with hippmapper Version
                 command: |
-                   docker tag mgoubran/dasher:latest mgoubran/dasher:0.1.0
+                   docker tag mgoubran/hippmapper:latest mgoubran/hippmapper:0.1.0
