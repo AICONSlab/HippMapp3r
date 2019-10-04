@@ -11,7 +11,7 @@ import warnings
 
 from dasher import __version__
 from dasher import gui
-from dasher.segment import dasher
+from dasher.segment import hippmapper
 from dasher.convert import filetype
 from dasher.preprocess import biascorr, trim_like
 from dasher.qc import seg_qc
@@ -32,7 +32,7 @@ def run_filetype(args):
 
 
 def run_dasher(args):
-    dasher.main(args)
+    hippmapper.main(args)
 
 
 def run_hp_seg_summary(args):
@@ -60,7 +60,7 @@ def get_parser():
     # --------------
 
     # seg hippocampus (hipp)
-    hipp_parser = dasher.parsefn()
+    hipp_parser = hippmapper.parsefn()
     parser_seg_hipp = subparsers.add_parser('seg_hipp', add_help=False, parents=[hipp_parser],
                                             help="Segment hippocampus using a trained CNN",
                                             usage=hipp_parser.usage)

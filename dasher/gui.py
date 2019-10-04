@@ -43,7 +43,7 @@ class HorzTabWidget(QtWidgets.QTabWidget):
 
 
 def capture_help_fn(fn_name):
-    proc = subprocess.Popen("dash3r %s -h" % fn_name, shell=True, stdout=subprocess.PIPE)
+    proc = subprocess.Popen("hippmapper %s -h" % fn_name, shell=True, stdout=subprocess.PIPE)
     out = proc.communicate()[0]
     out_str = out.decode("utf-8")
     return out_str
@@ -139,7 +139,7 @@ def main():
     mainwidget.move(QtWidgets.QApplication.desktop().screen().rect().center() - mainwidget.rect().center())
 
     ver = dasher.__version__
-    mainwidget.setWindowTitle("DASH3R %s" % ver)
+    mainwidget.setWindowTitle("HippMapp3r %s" % ver)
 
     p = mainwidget.palette()
     # p.setColor(mainwidget.backgroundRole(), QtCore.Qt.black)
@@ -152,7 +152,7 @@ def main():
     hyper_mother = Path(gui_file).parents[1]
 
     pic = QtWidgets.QLabel()
-    pixmap = QtGui.QPixmap("%s/docs/images/dash3r_icon.png" % hyper_mother)
+    pixmap = QtGui.QPixmap("%s/docs/images/hippmapper_icon.png" % hyper_mother)
 
     pixmaps = pixmap.scaled(270, 150)  # QtCore.Qt.KeepAspectRatio
     pic.setPixmap(pixmaps)

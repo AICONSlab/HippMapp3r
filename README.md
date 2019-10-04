@@ -1,10 +1,6 @@
-# DASH3R
+# HippMapp3r
 
-Deep Automated Segmentation of the Hippocampus in 3/thRee dimensions (pronounced dasher)
-
-
-
-*DASH3R* is a CNN-based segmentation technique of the whole hippocampus
+*HippMapp3r* (pronounced hippmapper) is a CNN-based segmentation technique of the whole hippocampus
 using MRI images from BrainLab.
 It can deal with brains with extensive atrophy and segments the hippocampi in seconds.
 It uses a T1-weighted image as the only input and segments both with-skull and skull-stripped images.
@@ -17,4 +13,4 @@ It uses a T1-weighted image as the only input and segments both with-skull and s
 
 ____________________________
 
-For more details, see our [docs](https://dash3r.readthedocs.io).
+For more details, see our [docs](https://hippmapper.readthedocs.io).

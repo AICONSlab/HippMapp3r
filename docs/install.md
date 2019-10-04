@@ -4,17 +4,17 @@
 For the main required Python packages (numpy, scipy, etc.) we recommend using
 [Anaconda for Python 3.6](https://www.continuum.io/downloads)
 
-## Installing package and dependencies for DASH3R locally
+## Installing package and dependencies for HippMapp3r locally
 
 1. Clone repository
 
-        git clone https://github.com/mgoubran/DASH3R.git dasher
+        git clone https://github.com/mgoubran/HippMapp3r.git dasher
 
         (or install zip file and uncompress)
 
         cd dasher
 
-    If you want to create a virtual environment where DASH3R can be run,
+    If you want to create a virtual environment where HippMapp3r can be run,
 
         conda create -n dasher python=3.6 anaconda
         source activate dasher
@@ -51,8 +51,8 @@ Download the models from [this link](https://drive.google.com/open?id=10aVCDurd_
     pip3 install argcomplete
     activate-global-python-argcomplete
 
-## Updating DASH3R
-To update DASH3R, navigate to the directory where DASH3R was cloned and run
+## Updating HippMapp3r
+To update HippMapp3r, navigate to the directory where HippMapp3r was cloned and run
 
     git pull
     pip install -e .[{option}] -process-dependency-links
