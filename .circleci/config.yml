@@ -12,7 +12,7 @@ jobs:
       - CONTAINER_NAME: "mgoubran/hippmapper"
     docker:
       - image: docker:18.06.3-ce-git
-    working_directory: /tmp/src/DASH3R
+    working_directory: /tmp/src/HippMapp3r
     steps:
       - checkout
       - setup_remote_docker
@@ -21,13 +21,13 @@ jobs:
           no_output_timeout: 60m
           command: |
             # Build docker image
-            dasher_VERSION=$(cat /tmp/src/DASH3R/hippmapper/__init__.py | tr -dc '0-9' | sed 's/./&./g')
-            echo "hippmapper version is ${dasher_VERSION}"
+            hippmapper_VERSION=$(cat /tmp/src/HippMapp3r/hippmapper/__init__.py | tr -dc '0-9' | sed 's/./&./g')
+            echo "hippmapper version is ${hippmapper_VERSION}"
             e=1 && for i in {1..5}; do
               docker build \
                 --rm=false \
                 -t ${CONTAINER_NAME} \
-                -f /tmp/src/DASH3R/Dockerfile \
+                -f /tmp/src/HippMapp3r/Dockerfile \
                 --build-arg BUILD_DATE=`date -u +"%Y-%m-%dT%H:%M:%SZ"` \
                 --build-arg VCS_REF=`git rev-parse --short HEAD` \
                 --build-arg VERSION="${CIRCLE_TAG:-$THISVERSION}" . \
@@ -39,7 +39,7 @@ jobs:
           command: |
 
              echo "Runing tests:"
-             docker run --entrypoint bash -it mgoubran/hippmapper -c "dash3r seg_hipp -t1 /DASH3R/data/test_case/mprage.nii.gz"
+             docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp -t1 /HippMapp3r/data/test_case/mprage.nii.gz"
 
       - store_test_results:
           path: /home/circleci/out/tests

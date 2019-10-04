@@ -62,5 +62,5 @@ RUN mkdir /HippMapp3r/models && \
     wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=10uPh9byC-7Qj7Duwgh9gyQcSXH-CwWz1' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=10uPh9byC-7Qj7Duwgh9gyQcSXH-CwWz1" -O /HippMapp3r/models/hipp_zoom_model_weights.h5 && \
     rm -rf /tmp/cookies.txt
 
-# Run dasher when the container launches
+# Run hippmapper when the container launches
 ENTRYPOINT /bin/bash
