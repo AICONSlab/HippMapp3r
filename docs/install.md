@@ -29,8 +29,10 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
 
 2. Install dependencies
     
-    If the computer you are using has a GPU:
+        pip install git+https://www.github.com/keras-team/keras-contrib.git
     
+    If the computer you are using has a GPU:
+        
         pip install -e .[hippmapper_gpu]
 
     If not:
