@@ -1,5 +1,5 @@
 from setuptools import setup, find_packages
-from dasher import __version__
+from hippmapper import __version__
 
 setup(
     name='HippMapp3r',
@@ -40,10 +40,10 @@ setup(
         'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
-        "dasher": ["tensorflow>=1.4.0"],
-        "dasher_gpu": ["tensorflow-gpu>=1.4.0"],
+        "hippmapper": ["tensorflow>=1.4.0"],
+        "hippmapper_gpu": ["tensorflow-gpu>=1.4.0"],
     },
-    entry_points={'console_scripts': ['hippmapper=dasher.cli:main']},
+    entry_points={'console_scripts': ['hippmapper=hippmapper.cli:main']},
     keywords=[
         'neuroscience dementia lesion stroke white-matter-hyperintensity brain-atlas mri neuroimaging',
         'medical-imaging biomedical image-processing image-registration image-segmentation',

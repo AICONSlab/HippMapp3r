@@ -5,7 +5,7 @@
 import os
 import subprocess
 import sys
-import dasher
+import hippmapper
 from pathlib import Path
 from PyQt5 import QtGui, QtCore, QtWidgets
 
@@ -138,7 +138,7 @@ def main():
     mainwidget.setFont(font)
     mainwidget.move(QtWidgets.QApplication.desktop().screen().rect().center() - mainwidget.rect().center())
 
-    ver = dasher.__version__
+    ver = hippmapper.__version__
     mainwidget.setWindowTitle("HippMapp3r %s" % ver)
 
     p = mainwidget.palette()

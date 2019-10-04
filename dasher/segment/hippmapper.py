@@ -13,10 +13,10 @@ import numpy as np
 import nibabel as nib
 import subprocess
 from nilearn.image import reorder_img, resample_img, resample_to_img, math_img, largest_connected_component_img
-from dasher.deep.predict import run_test_case
-from dasher.utils import endstatement
-from dasher.preprocess import biascorr, trim_like
-from dasher.qc import seg_qc
+from hippmapper.deep.predict import run_test_case
+from hippmapper.utils import endstatement
+from hippmapper.preprocess import biascorr, trim_like
+from hippmapper.qc import seg_qc
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
 
@@ -29,11 +29,11 @@ def parsefn():
                                            "works best with a bias-corrected with-skull or skull-tripped image in"
                                            " standard orientation (RPI or LPI)\n\n"
                                            "Examples: \n"
-                                           "    dasher -t1 my_subj/mprage.nii.gz \n"
+                                           "    hippmapper -t1 my_subj/mprage.nii.gz \n"
                                            "OR (to bias-correct before and overwrite existing segmentation)\n"
-                                           "    dasher -t1 my_subj/mprage.nii.gz -b -f \n"
+                                           "    hippmapper -t1 my_subj/mprage.nii.gz -b -f \n"
                                            "OR (to run for subj - looks for my_subj_T1_nu.nii.gz)\n"
-                                           "    dasher -s my_subj \n")
+                                           "    hippmapper -s my_subj \n")
 
     optional = parser.add_argument_group('optional arguments')
 

@@ -8,16 +8,16 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
 
 1. Clone repository
 
-        git clone https://github.com/mgoubran/HippMapp3r.git dasher
+        git clone https://github.com/mgoubran/HippMapp3r.git hippmapper
 
         (or install zip file and uncompress)
 
-        cd dasher
+        cd hippmapper
 
     If you want to create a virtual environment where HippMapp3r can be run,
 
-        conda create -n dasher python=3.6 anaconda
-        source activate dasher
+        conda create -n hippmapper python=3.6 anaconda
+        source activate hippmapper
     
     To end the session,
     
@@ -25,21 +25,21 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
     
     To remove the environment
     
-        conda env remove --name dasher
+        conda env remove --name hippmapper
 
 2. Install dependencies
 
         pip install -e .[{option}] -process-dependency-links
 
-    If the computer you are using has a GPU, replace "option" with "dasher_gpu". Otherwise, replace it with "dasher"
+    If the computer you are using has a GPU, replace "option" with "hippmapper_gpu". Otherwise, replace it with "hippmapper"
 
 3. Test the installation by running
 
-        dasher --help
+        hippmapper --help
         
    To confirm that the command line function works, and
    
-        dasher
+        hippmapper
         
    To launch the interactive GUI.
 
