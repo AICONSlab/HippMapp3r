@@ -14,7 +14,7 @@ A GUI that looks like the image below should appear. You can hover any of button
 
 You can get the command usage info by click the "Help" box on any of the pop-up windows.
 
-![Help screen for graphical user interface for Dasher application](images/hippmapper_hipp_help.png)
+![Help screen for graphical user interface for Dasher application](images/hippmapper_help.png)
 
 ## For Command Line
 
