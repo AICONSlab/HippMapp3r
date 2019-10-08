@@ -16,6 +16,8 @@ using MRI images from BrainLab.
 It can deal with brains with extensive atrophy and segments the hippocampi in seconds.
 It uses a T1-weighted image as the only input and segments both with-skull and skull-stripped images.
 
+Copyright (C) 2019 BrainLab.
+
 .. image:: images/graph_abstract.png
     :width: 550px
     :alt: Graph abstract
