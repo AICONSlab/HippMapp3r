@@ -13,15 +13,13 @@ import numpy as np
 import nibabel as nib
 import subprocess
 from nilearn.image import reorder_img, resample_img, resample_to_img, math_img, largest_connected_component_img
-from hippmapper.deep.predict import run_test_case
-from hippmapper.utils import endstatement
-from hippmapper.preprocess import biascorr, trim_like
-from hippmapper.qc import seg_qc
+from hypermatter.deep.predict import run_test_case
+from hypermatter.utils import endstatement
+from hypermatter.preprocess import biascorr, trim_like
+from hypermatter.qc import seg_qc
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
-import warnings
-
-warnings.simplefilter("ignore")
+from termcolor import colored
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
@@ -32,11 +30,11 @@ def parsefn():
                                            "works best with a bias-corrected with-skull or skull-tripped image in"
                                            " standard orientation (RPI or LPI)\n\n"
                                            "Examples: \n"
-                                           "    hippmapper -t1 my_subj/mprage.nii.gz \n"
+                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz \n"
                                            "OR (to bias-correct before and overwrite existing segmentation)\n"
-                                           "    hippmapper -t1 my_subj/mprage.nii.gz -b -f \n"
+                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
                                            "OR (to run for subj - looks for my_subj_T1_nu.nii.gz)\n"
-                                           "    hippmapper -s my_subj \n")
+                                           "    hypermatter segment_hipp -s my_subj \n")
 
     optional = parser.add_argument_group('optional arguments')
 
@@ -45,6 +43,8 @@ def parsefn():
     optional.add_argument('-b', '--bias', help="bias field correct image before segmentation",
                           action='store_true')
     optional.add_argument('-o', '--out', type=str, metavar='', help="output prediction")
+    optional.add_argument('-n', '--num_mc', type=int, metavar='', help="number of Monte Carlo Dropout samples",
+                          default=30)
     optional.add_argument('-f', '--force', help="overwrite existing segmentation", action='store_true')
     optional.add_argument('-ss', '--session', type=str, metavar='', help="input session for longitudinal studies")
     optional.add_argument("-ign_ort", "--ign_ort",  action='store_true',
@@ -98,7 +98,9 @@ def parse_inputs(parser, args):
 
     ign_ort = True if args.ign_ort else False
 
-    return subj_dir, subj, t1, out, bias, ign_ort, force
+    num_mc = args.num_mc
+
+    return subj_dir, subj, t1, out, bias, ign_ort, num_mc, force
 
 
 def orient_img(in_img_file, orient_tag, out_img_file):
@@ -220,6 +222,14 @@ def trim_img_to_size(in_img, trimmed_img):
         c3.run()
 
 
+def reslice_like(in_img, ref_img, trimmed_img):
+    c3 = C3d()
+    c3.inputs.in_file = ref_img
+    c3.inputs.args = "%s -reslice-identity" % in_img
+    c3.inputs.out_file = trimmed_img
+    c3.run()
+
+
 def split_seg_sides(in_bin_seg_file, out_seg_file):
     """
     Split segmentation into Right/Left
@@ -247,7 +257,6 @@ def split_seg_sides(in_bin_seg_file, out_seg_file):
 
     nib.save(out_seg_nii, out_seg_file)
 
-
 # --------------
 # Main function
 # --------------
@@ -260,8 +269,8 @@ def main(args):
     :return: prediction (segmentation file)
     """
     parser = parsefn()
-    subj_dir, subj, t1, out, bias, ign_ort, force = parse_inputs(parser, args)
-    pred_name = 'T1acq_hipp_pred' if args.subj is not None else 'hipp_pred'
+    subj_dir, subj, t1, out, bias, ign_ort, num_mc, force = parse_inputs(parser, args)
+    pred_name = 'T1acq_hipp_pred' if hasattr(args, 'subj') else 'hipp_pred'
 
     if out is None:
         prediction = os.path.join(subj_dir, "%s_%s.nii.gz" % (subj, pred_name))
@@ -324,7 +333,7 @@ def main(args):
         test_data = np.zeros((1, 1, 160, 160, 128), dtype=t1_img.get_data_dtype())
         test_data[0, 0, :, :, :] = std.get_data()
 
-        print("\n predicting initial hippocampus segmentation")
+        print(colored("\n predicting initial hippocampus segmentation", 'green'))
 
         pred = run_test_case(test_data=test_data, model_json=model_json, model_weights=model_weights,
                              affine=res.affine, output_label_map=True, labels=1)
@@ -368,49 +377,55 @@ def main(args):
 
         test_zoom_data[0, 0, :, :, :] = res_zoom.get_data()
 
-        model_zoom_json = os.path.join(hyper_dir, 'models', 'hipp_zoom_model.json')
-        model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_model_weights.h5')
+        model_zoom_json = os.path.join(hyper_dir, 'models', 'hipp_zoom_mcdp_model.json')
+        model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_mcdp_model_weights.h5')
 
         assert os.path.exists(
             model_zoom_weights), "%s model does not exits ... please download and rerun script" % model_zoom_weights
 
-        print("\n predicting hippocampus segmentation")
+        print(colored("\n predicting hippocampus segmentation using MC Dropout with %s samples" % num_mc, 'green'))
 
-        pred_zoom = run_test_case(test_data=test_zoom_data, model_json=model_zoom_json,
-                                  model_weights=model_zoom_weights,
-                                  affine=res_zoom.affine, output_label_map=True, labels=1)
+        pred_zoom_s = np.zeros((num_mc, pred_shape[0], pred_shape[1], pred_shape[2]), dtype=res_zoom.get_data_dtype())
+
+        for sample_id in range(num_mc):
+            pred = run_test_case(test_data=test_zoom_data, model_json=model_zoom_json, model_weights=model_zoom_weights,
+                                 affine=res_zoom.affine, output_label_map=True, labels=1)
+            pred_zoom_s[sample_id, :, :, :] = pred.get_data()
+            nib.save(pred, os.path.join(pred_dir, "hipp_pred_%s.nii.gz" % sample_id))
+
+        # computing mean
+        # pred_zoom_mean = pred_zoom_s.mean(axis=0)
+        pred_zoom_mean = np.median(pred_zoom_s, axis=0)
+        pred_zoom = nib.Nifti1Image(pred_zoom_mean, res_zoom.affine)
 
         # resample back
         pred_zoom_res = resample_to_img(pred_zoom, t1_zoom_img)
-        pred_zoom_name = os.path.join(pred_dir, "%s_trimmed_hipp_pred_prob.nii.gz" % subj)
+        pred_zoom_name = os.path.join(pred_dir, "%s_trimmed_hipp_pred_mean_prob.nii.gz" % subj)
         nib.save(pred_zoom_res, pred_zoom_name)
-        pred_zoom_th = math_img('img > 0.5', img=pred_zoom_res)
+
+        # reslice like
+        t1_ref = t1_ort if os.path.exists(t1_ort) else t1
+        pred_zoom_res_t1 = os.path.join(pred_dir, "%s_%s_hipp_pred_mean.nii.gz" % (subj, pred_name))
+        reslice_like(pred_zoom_name, t1_ref, pred_zoom_res_t1)
+
+        # thr
+        pred_zoom_res_t1_img = nib.load(pred_zoom_res_t1)
+        pred_zoom_th = math_img('img > 0.5', img=pred_zoom_res_t1_img)
 
         # largest 2 conn comp
-        comb_comps_zoom_bin_name = os.path.join(pred_dir, "%s_trimmed_hipp_bin_pred.nii.gz" % subj)
-        get_largest_two_comps(pred_zoom_th, comb_comps_zoom_bin_name)
+        # comb_comps_zoom_bin_cmp = os.path.join(pred_dir, "%s_hipp_pred_mean_bin.nii.gz" % subj)
+        bin_prediction = os.path.join(subj_dir, "%s_%s_bin.nii.gz" % (subj, pred_name))
+        get_largest_two_comps(pred_zoom_th, bin_prediction)
 
         # split seg sides
-        comb_comps_zoom_name = os.path.join(pred_dir, "%s_trimmed_hipp_pred.nii.gz" % subj)
-        split_seg_sides(comb_comps_zoom_bin_name, comb_comps_zoom_name)
+        split_seg_sides(bin_prediction, prediction)
 
-        # expand to original size
-        bin_prediction = os.path.join(subj_dir, "%s_%s_bin.nii.gz" % (subj, pred_name))
-
-        t1_ref = t1_ort if os.path.exists(t1_ort) else t1
-
-        trim_like.main(['-i %s' % comb_comps_zoom_bin_name, '-r %s' % t1_ref, '-o %s' % bin_prediction])
-        trim_like.main(['-i %s' % comb_comps_zoom_name, '-r %s' % t1_ref, '-o %s' % prediction])
-
-        print("\n generating mosaic image for qc")
+        print(colored("\n generating mosaic image for qc", 'green'))
 
         seg_qc.main(['-i', '%s' % t1_ref, '-s', '%s' % prediction, '-d', '1', '-g', '3'])
 
-        endstatement.main('Hippocampus prediction and mosaic generation', '%s' % (datetime.now() - start_time))
+        endstatement.main('Hippocampus prediction (Using MC Dropout) and mosaic generation', '%s' % (datetime.now() - start_time))
 
 
 if __name__ == "__main__":
     main(sys.argv[1:])
-
-# TODO
-# add neck option -hfb t1 then trim
