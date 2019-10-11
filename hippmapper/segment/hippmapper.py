@@ -225,7 +225,7 @@ def trim_img_to_size(in_img, trimmed_img):
 def reslice_like(in_img, ref_img, trimmed_img):
     c3 = C3d()
     c3.inputs.in_file = ref_img
-    c3.inputs.args = "%s -reslice-identity" % in_img
+    c3.inputs.args = "%s -reslice-identity -interpolation Cubic" % in_img
     c3.inputs.out_file = trimmed_img
     c3.run()
 
@@ -394,8 +394,8 @@ def main(args):
             nib.save(pred, os.path.join(pred_dir, "hipp_pred_%s.nii.gz" % sample_id))
 
         # computing mean
-        # pred_zoom_mean = pred_zoom_s.mean(axis=0)
-        pred_zoom_mean = np.median(pred_zoom_s, axis=0)
+        pred_zoom_mean = pred_zoom_s.mean(axis=0)
+        # pred_zoom_mean = np.median(pred_zoom_s, axis=0)
         pred_zoom = nib.Nifti1Image(pred_zoom_mean, res_zoom.affine)
 
         # resample back
