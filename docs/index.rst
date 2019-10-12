@@ -26,6 +26,7 @@ Copyright (C) 2019 BrainLab.
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
+   :hidden:
 
    before_install
    install
