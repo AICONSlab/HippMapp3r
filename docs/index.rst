@@ -34,9 +34,4 @@ Copyright (C) 2019 BrainLab.
    issues
    docker
 
-Indices and tables
-====================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
