@@ -12,7 +12,7 @@ Or follow the steps below:
 
 After opening the HippMapper GUI, click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear. The window should look like the image below.
 
-![hippocampus pop up window](images/hipp_1.PNG)
+![](images/hipp_1.PNG)
 
 Click "Select t1w" and chose your T1 image. Click "Run".
 Type your desired output name in the "out" box.
@@ -37,4 +37,4 @@ Your output file will automatically appear in your t1w folder.
 
 The output should look like this.:
 
-![hippocampus segmentation](images/3d_snap_resize.png)
+![](images/3d_snap_resize.png)
