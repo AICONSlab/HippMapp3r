@@ -245,13 +245,19 @@ def split_seg_sides(in_bin_seg_file, out_seg_file):
     l_orient_nii = ('L', 'A', 'S')
 
     if seg_ort == l_orient_nii:
-        new = in_bin_seg.get_data()[mid:-1, :, :]
-        new[new == 1] = 2
-        out_seg[mid:-1, :, :] = new
+        # new = in_bin_seg.get_data()[mid:-1, :, :]
+        # new[new == 1] = 2
+        # out_seg[mid:-1, :, :] = 2
+
+        out_seg[0:mid, :, :] = 0
+        out_seg = out_seg + in_bin_seg.get_data()
     elif seg_ort == r_orient_nii:
-        new = in_bin_seg.get_data()[0:mid, :, :]
-        new[new == 1] = 2
-        out_seg[0:mid, :, :] = new
+        # new = in_bin_seg.get_data()[0:mid, :, :]
+        # new[new == 1] = 2
+        # out_seg[0:mid, :, :] = 2
+
+        out_seg[mid:-1, :, :] = 0
+        out_seg = out_seg + in_bin_seg.get_data()
 
     out_seg_nii = nib.Nifti1Image(out_seg, in_bin_seg.affine)
 
