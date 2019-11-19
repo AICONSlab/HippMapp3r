@@ -259,6 +259,7 @@ def split_seg_sides(in_bin_seg_file, out_seg_file):
         out_seg[mid:-1, :, :] = 0
         out_seg = out_seg + in_bin_seg.get_data()
 
+    print(out_seg.max())
     out_seg_nii = nib.Nifti1Image(out_seg, in_bin_seg.affine)
 
     nib.save(out_seg_nii, out_seg_file)
