@@ -24,4 +24,5 @@ if [[ -z "${c3dpath}" ]]; then
     wget https://downloads.sourceforge.net/project/c3d/c3d/Nightly/c3d-nightly-Linux-x86_64.tar.gz && \
     tar -xzvf c3d-nightly-Linux-x86_64.tar.gz && mv c3d-1.1.0-Linux-x86_64 "${SCRIPTPATH}/depends/c3d/" && \
     rm c3d-nightly-Linux-x86_64.tar.gz
+    export PATH="${SCRIPTPATH}/depends/c3d/:$PATH"
 fi
