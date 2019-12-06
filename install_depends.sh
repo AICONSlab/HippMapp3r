@@ -13,7 +13,7 @@ if [[ -z "${antspath}" ]]; then
     export ANTSPATH="$ANTSPATH:${SCRIPTPATH}/depends/ANTs"
     mkdir -p "${SCRIPTPATH}/depends/ANTs" && \
     curl -sSL "https://dl.dropbox.com/s/2f4sui1z6lcgyek/ANTs-Linux-centos5_x86_64-v2.2.0-0740f91.tar.gz" \
-    | tar -xzC $ANTSPATH --strip-components 1
+    | tar -xzC "${SCRIPTPATH}/depends/ANTs" --strip-components 1
 fi
 
 
