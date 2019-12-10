@@ -49,10 +49,6 @@ For the main required Python packages (numpy, scipy, etc.) we recommend using
         
    To launch the interactive GUI.
 
-## ANTs & Convert3D (c3d)
-
-If either ANTs or c3d are not installed on your machine, run `install_depends.sh`, located in the project directory. The required software will be installed in the `depends` directory.
-
 ## Download deep models
 
 Download the models from [this link](https://drive.google.com/open?id=10aVCDurd_mcB49mJfwm658IZg33u0pd2) and place them in the `models` directory
