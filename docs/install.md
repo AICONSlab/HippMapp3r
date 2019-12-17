@@ -4,6 +4,11 @@
 For the main required Python packages (numpy, scipy, etc.) we recommend using
 [Anaconda for Python 3.6](https://www.continuum.io/downloads)
 
+
+## ANTs & Convert3D (c3d)
+
+If either ANTs or c3d are not installed on your machine, run `install_depends.sh`, located in the project directory. The required software will be installed in the `depends` directory
+
 ## Installing package and dependencies for HippMapp3r locally
 
 1. Clone repository
