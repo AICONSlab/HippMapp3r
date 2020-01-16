@@ -18,8 +18,12 @@ class add_paths():
             try:
                 subprocess.check_output(["which", command])
             except subprocess.CalledProcessError: # command was not found
-                os.environ['PATH'] += os.pathsep + self.command_paths[command]
-                self.added_paths.append(self.command_paths[command])
+                if os.path.exists(self.command_paths[command]):
+                    os.environ['PATH'] += os.pathsep + self.command_paths[command]
+                    self.added_paths.append(self.command_paths[command])
+                else:  # if installation script hasnt been run
+                    print("The command {} has not been installed. Install it locally by running install_scripts.sh".format(command))
+                    exit()
 
     def __exit__(self, exc_type, exc_value, traceback):
         for path in self.added_paths:  # remove all added PATH variables
