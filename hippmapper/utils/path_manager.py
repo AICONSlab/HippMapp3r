@@ -8,7 +8,7 @@ class add_paths():
     Files will be removed after use.
     """
     def __init__(self):
-        self.command_paths = dict(ANTS=os.path.join(DEPENDS_DIR, "ants"),
+        self.command_paths = dict(ANTS=os.path.join(DEPENDS_DIR, "ANTs"),
                                   c3d=os.path.join(DEPENDS_DIR, "c3d/bin"))
         self.added_paths = []  # empty list for all paths to be added
 
