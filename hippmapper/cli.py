@@ -16,6 +16,7 @@ from hippmapper.convert import filetype
 from hippmapper.preprocess import biascorr, trim_like
 from hippmapper.qc import seg_qc
 from hippmapper.stats import summary_hp_vols
+from hippmapper.utils.path_manager import add_paths
 
 warnings.simplefilter("ignore")
 # warnings.simplefilter("ignore", RuntimeWarning)
@@ -159,7 +160,8 @@ def main(args=None):
         handler.setFormatter(formatter)
         root.addHandler(handler)
 
-        args.func(args)
+        with add_paths():  # context manager added to account for adding paths
+            args.func(args)
 
     else:
         gui.main()
