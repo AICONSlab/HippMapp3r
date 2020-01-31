@@ -109,3 +109,6 @@ models/
 
 # .idea directory
 .idea/
+
+# depends directory
+depends/
