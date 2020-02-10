@@ -45,7 +45,7 @@ RUN curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
     rm Miniconda3-latest-Linux-x86_64.sh
 ENV PATH=/opt/miniconda/bin:${PATH}
 
-# Install all needed packages based on pip installation
+# Install all needed packages
 RUN git clone https://github.com/mgoubran/HippMapp3r.git && \
     cd HippMapp3r && \
     pip install -e .[hippmapper] && \
