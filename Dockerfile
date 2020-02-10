@@ -45,11 +45,11 @@ RUN curl -LO https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.
     rm Miniconda3-latest-Linux-x86_64.sh
 ENV PATH=/opt/miniconda/bin:${PATH}
 
-# Install all needed packages
+# Install all needed packages based on pip installation
 RUN git clone https://github.com/mgoubran/HippMapp3r.git && \
     cd HippMapp3r && \
+    pip install git+https://www.github.com/keras-team/keras-contrib.git && \
     pip install -e .[hippmapper] && \
-    pip install git+https://www.github.com/keras-team/keras-contrib.git
 
 # Download models, store in directory
 RUN mkdir /HippMapp3r/models && \
