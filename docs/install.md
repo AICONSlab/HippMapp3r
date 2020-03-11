@@ -24,11 +24,11 @@ If either ANTs or c3d are not installed on your machine, run `install_depends.sh
         conda create -n hippmapper python=3.6 anaconda
         source activate hippmapper
     
-    To end the session,
+    To end the session, deactivate the environment
     
         source deactivate
     
-    To remove the environment
+    To delete the environment,
     
         conda env remove --name hippmapper
 

@@ -6,7 +6,6 @@ from keras.models import load_model
 from keras_contrib.layers import InstanceNormalization
 import hippmapper.deep.metrics
 import sys
-import os
 
 in_model = sys.argv[1]
 model_name = sys.argv[2]

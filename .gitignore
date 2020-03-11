@@ -20,6 +20,7 @@ parts/
 sdist/
 var/
 wheels/
+depends/
 *.egg-info/
 .installed.cfg
 *.egg
@@ -108,3 +109,6 @@ models/
 
 # .idea directory
 .idea/
+
+# depends directory
+depends/

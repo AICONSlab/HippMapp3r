@@ -291,7 +291,7 @@ def main(args):
         start_time = datetime.now()
 
         hfb = os.path.realpath(__file__)
-        hyper_dir = Path(hfb).parents[2]
+        hyper_dir = str(Path(hfb).parents[2])
 
         model_json = os.path.join(hyper_dir, 'models', 'hipp_model.json')
         model_weights = os.path.join(hyper_dir, 'models', 'hipp_model_weights.h5')
