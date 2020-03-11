@@ -36,7 +36,7 @@ setup(
         'git+https://github.com/keras-team/keras-contrib.git'
     ],
     install_requires=[
-        'nibabel==2.5.0', 'nipype=1.2.3', 'argparse', 'argcomplete', 'joblib', 'keras==2.1.5', 'nilearn', 'scikit-learn',
+        'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras==2.1.5', 'nilearn', 'scikit-learn',
         'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
