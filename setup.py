@@ -40,9 +40,8 @@ setup(
         'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
-        "hippmapper": ["tensorflow==1.9.0"],
-        "hippmapper_gpu": ["tensorflow-gpu==1.9
-        .0"],
+        "hippmapper": ["tensorflow==1.4.0"],
+        "hippmapper_gpu": ["tensorflow-gpu==1.4.0"],
     },
     entry_points={'console_scripts': ['hippmapper=hippmapper.cli:main']},
     keywords=[

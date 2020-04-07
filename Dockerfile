@@ -49,7 +49,8 @@ ENV PATH=/opt/miniconda/bin:${PATH}
 RUN git clone https://github.com/mgoubran/HippMapp3r.git && \
     cd HippMapp3r && \
     pip install git+https://www.github.com/keras-team/keras-contrib.git && \
-    pip install -e .[hippmapper]
+    pip install -e .[hippmapper] && \
+    pip install pyqt5==5.14
 
 # Download models, store in directory
 RUN mkdir /HippMapp3r/models && \
