@@ -34,6 +34,11 @@ The simplest way to run the container is:
 
     docker run -it mgoubran/hippmapper seg_hipp -t1 /hippMapp3r/data/test_case/mprage.nii.gz
 
+To run the Docker container in an interactive shell, run
+
+    docker run --rm -v {enter/path/here}:/root -it --entrypoint /bin/bash mgoubran/hippmapper
+
+
 
 ## Using hippMapper on Singularity
 

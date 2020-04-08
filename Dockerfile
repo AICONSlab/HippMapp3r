@@ -48,6 +48,7 @@ ENV PATH=/opt/miniconda/bin:${PATH}
 # Install all needed packages based on pip installation
 RUN git clone https://github.com/mgoubran/HippMapp3r.git && \
     cd HippMapp3r && \
+    git checkout testing && \
     pip install git+https://www.github.com/keras-team/keras-contrib.git && \
     pip install -e .[hippmapper] && \
     pip install pyqt5==5.14
