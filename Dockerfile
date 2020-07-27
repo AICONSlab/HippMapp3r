@@ -21,17 +21,6 @@ RUN apt-key adv --recv-keys --keyserver hkp://pool.sks-keyservers.net:80 0xA5D32
 # Install FSL
 RUN apt-get update && apt-get install -y fsl
 
-ENV FSLDIR="/usr/share/fsl/5.0" \
-    FSLOUTPUTTYPE="NIFTI_GZ" \
-    FSLMULTIFILEQUIT="TRUE" \
-    POSSUMDIR="/usr/share/fsl/5.0" \
-    LD_LIBRARY_PATH="/usr/lib/fsl/5.0:$LD_LIBRARY_PATH" \
-    FSLTCLSH="/usr/bin/tclsh" \
-    FSLWISH="/usr/bin/wish" \
-    POSSUMDIR="/usr/share/fsl/5.0"
-
-ENV PATH="/usr/lib/fsl/5.0":${PATH}
-
 # Install ANTs
 ENV ANTSPATH /opt/ANTs
 RUN mkdir -p /opt/ANTs && \
@@ -51,6 +40,21 @@ RUN git clone https://github.com/mgoubran/HippMapp3r.git && \
     pip install git+https://www.github.com/keras-team/keras-contrib.git && \
     pip install -e .[hippmapper] && \
     pip install pyqt5==5.14
+
+# Install fsl
+COPY fslinstaller.py /tmp/
+RUN su -c "python /tmp/fslinstaller.py -D -E -d /usr/local/fsl --fslversion 5.0.10"
+
+ENV PATH="/usr/local/fsl/:${PATH}"
+
+ENV FSLDIR="/usr/local/fsl/" \
+    FSLOUTPUTTYPE="NIFTI_GZ" \
+    FSLMULTIFILEQUIT="TRUE" \
+    POSSUMDIR="/usr/local/fsl/" \
+    LD_LIBRARY_PATH="/usr/lib/fsl/:$LD_LIBRARY_PATH" \
+    FSLTCLSH="/usr/bin/tclsh" \
+    FSLWISH="/usr/bin/wish" \
+    POSSUMDIR="/usr/local/fsl/"
 
 # Download models, store in directory
 RUN mkdir /HippMapp3r/models && \
