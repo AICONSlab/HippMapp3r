@@ -5,7 +5,7 @@ setup(
     name='HippMapp3r',
     version=__version__,
     description='A CNN-based segmentation technique using MRI images from BrainLab',
-    author=['Maged Goubran', 'Hassan Akhavein', 'Edward Ntiri'],
+    author=['Maged Goubran', 'Hassan Akhavein', 'Parisa Forooshani', 'Edward Ntiri'],
     author_email='maged.goubran@sri.utoronto.ca',
     packages=find_packages(),
     include_package_data=True,

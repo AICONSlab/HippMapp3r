@@ -33,9 +33,8 @@ ENV FSLDIR="/usr/share/fsl/5.0" \
     LD_LIBRARY_PATH="/usr/lib/fsl/5.0:$LD_LIBRARY_PATH" \
     FSLTCLSH="/usr/bin/tclsh" \
     FSLWISH="/usr/bin/wish" \
-    POSSUMDIR="/usr/share/fsl/5.0"
-
-ENV PATH="/usr/lib/fsl/5.0:${PATH}"
+    POSSUMDIR="/usr/share/fsl/5.0" \
+    PATH="/usr/lib/fsl/5.0:${PATH}"
 
 # Install ANTs
 ENV ANTSPATH /opt/ANTs
@@ -44,20 +43,19 @@ RUN mkdir -p /opt/ANTs && \
     | tar -xzC $ANTSPATH --strip-components 1
 ENV PATH=${ANTSPATH}:${PATH}
 
-# RUN pip3 --version
 COPY requirements.txt ./
 RUN python3 -m pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Download models, store in directory
-RUN mkdir -p /src/hippmapp3r/models && \
-    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz" -O /src/hippmapp3r/models/hipp_model.json && \
+RUN mkdir /src/hippmapper/models && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz" -O /src/hippmapper/models/hipp_model.json && \
     rm -rf /tmp/cookies.txt && \
-    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2" -O /src/hippmapp3r/models/hipp_model_weights.h5 && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2" -O /src/hippmapper/models/hipp_model_weights.h5 && \
     rm -rf /tmp/cookies.txt && \
-    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1rwCrZBkzF_OgeqnaX-bN46DJoLqH61qU' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1rwCrZBkzF_OgeqnaX-bN46DJoLqH61qU" -O /src/hippmapp3r/models/hipp_zoom_mcdp_model.json && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1DMU8VTggkwOaLN_yuOoJw8Ek5csdmyHW' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1DMU8VTggkwOaLN_yuOoJw8Ek5csdmyHW" -O /src/hippmapper/models/hipp_zoom_full_mcdp_model.json && \
     rm -rf /tmp/cookies.txt && \
-    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1T255vBdvxhPyuVQ6rq3Ev_0VkZ8kzwrf' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1T255vBdvxhPyuVQ6rq3Ev_0VkZ8kzwrf" -O /src/hippmapp3r/models/hipp_zoom_mcdp_model_weights.h5 && \
+    wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1m10eGcRn2qtd8ZyhurEdDrR8WC7P-RmW' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1m10eGcRn2qtd8ZyhurEdDrR8WC7P-RmW" -O /src/hippmapper/models/hipp_zoom_full_mcdp_model_weights.h5 && \
     rm -rf /tmp/cookies.txt
 
 # Run hippmapper when the container launches
