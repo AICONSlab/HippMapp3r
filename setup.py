@@ -11,7 +11,7 @@ setup(
     include_package_data=True,
     zip_safe=False,
     license='GNU GENERAL PUBLIC LICENSE v3',
-    url='https://github.com/mgoubran/HippMapp3r',  # change later
+    url='https://hippmapp3r.readthedocs.io/en/latest/',
     download_url='https://github.com/mgoubran/HippMapp3r',
     long_description=open('README.md').read(),
     classifiers=[

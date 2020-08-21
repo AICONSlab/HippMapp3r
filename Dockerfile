@@ -61,4 +61,4 @@ RUN mkdir -p /src/hippmapp3r/models && \
     rm -rf /tmp/cookies.txt
 
 # Run hippmapper when the container launches
-ENTRYPOINT ["/usr/local/bin/hippmapper"]
+ENTRYPOINT /bin/bash
