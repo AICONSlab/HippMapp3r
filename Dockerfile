@@ -48,7 +48,7 @@ RUN python3 -m pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Download models, store in directory
-RUN mkdir /src/hippmapper/models && \
+RUN mkdir -p /src/hippmapper/models && \
     wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1ftE79HF-sWXGa_X2bOUc-ldyWQEB5-Dz" -O /src/hippmapper/models/hipp_model.json && \
     rm -rf /tmp/cookies.txt && \
     wget --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=19zEi7552X93_5JbEokfry2Y28gFeVGt2" -O /src/hippmapper/models/hipp_model_weights.h5 && \
