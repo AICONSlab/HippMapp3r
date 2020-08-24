@@ -19,7 +19,7 @@ cycler==0.10.0
 Cython==0.29.2
 deap==1.2.2
 decorator==4.3.0
-ecdsa==0.13
+ecdsa==0.13.3
 entrypoints==0.2.3
 funcsigs==1.0.2
 future==0.17.1
