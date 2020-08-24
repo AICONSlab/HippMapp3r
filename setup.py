@@ -5,13 +5,13 @@ setup(
     name='HippMapp3r',
     version=__version__,
     description='A CNN-based segmentation technique using MRI images from BrainLab',
-    author=['Maged Goubran', 'Hassan Akhavein', 'Edward Ntiri'],
+    author=['Maged Goubran', 'Hassan Akhavein', 'Parisa Forooshani', 'Edward Ntiri'],
     author_email='maged.goubran@sri.utoronto.ca',
     packages=find_packages(),
     include_package_data=True,
     zip_safe=False,
     license='GNU GENERAL PUBLIC LICENSE v3',
-    url='https://github.com/mgoubran/HippMapp3r',  # change later
+    url='https://hippmapp3r.readthedocs.io/en/latest/',
     download_url='https://github.com/mgoubran/HippMapp3r',
     long_description=open('README.md').read(),
     classifiers=[
@@ -40,8 +40,8 @@ setup(
         'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
     ],
     extras_require={
-        "hippmapper": ["tensorflow==2.0.0"],
-        "hippmapper_gpu": ["tensorflow-gpu==2.0.0"],
+        "hippmapper": ["tensorflow"],
+        "hippmapper_gpu": ["tensorflow-gpu"],
     },
     entry_points={'console_scripts': ['hippmapper=hippmapper.cli:main']},
     keywords=[

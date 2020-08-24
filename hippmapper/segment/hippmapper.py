@@ -13,10 +13,10 @@ import numpy as np
 import nibabel as nib
 import subprocess
 from nilearn.image import reorder_img, resample_img, resample_to_img, math_img, largest_connected_component_img
-from hippmapper.deep.predict import run_test_case
-from hippmapper.utils import endstatement
-from hippmapper.preprocess import biascorr, trim_like
-from hippmapper.qc import seg_qc
+from hypermatter.deep.predict import run_test_case
+from hypermatter.utils import endstatement
+from hypermatter.preprocess import biascorr, trim_like
+from hypermatter.qc import seg_qc
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
 from termcolor import colored
@@ -30,11 +30,11 @@ def parsefn():
                                            "works best with a bias-corrected with-skull or skull-tripped image in"
                                            " standard orientation (RPI or LPI)\n\n"
                                            "Examples: \n"
-                                           "    hippmapper segment_hipp -t1 my_subj/mprage.nii.gz \n"
+                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz \n"
                                            "OR (to bias-correct before and overwrite existing segmentation)\n"
-                                           "    hippmapper segment_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
+                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
                                            "OR (to run for subj - looks for my_subj_T1_nu.nii.gz)\n"
-                                           "    hippmapper segment_hipp -s my_subj \n")
+                                           "    hypermatter segment_hipp -s my_subj \n")
 
     optional = parser.add_argument_group('optional arguments')
 
@@ -108,8 +108,10 @@ def orient_img(in_img_file, orient_tag, out_img_file):
     c3.inputs.in_file = in_img_file
     c3.inputs.args = "-orient %s" % orient_tag
     c3.inputs.out_file = out_img_file
-    c3.run()
-
+    if os.path.exists(out_img_file):
+        print("\n %s already exists" % out_img_file)
+    else:
+        c3.run()
 
 def check_orient(in_img_file, r_orient, l_orient, out_img_file):
     """
@@ -129,9 +131,11 @@ def check_orient(in_img_file, r_orient, l_orient, out_img_file):
               "\n re-orienting image to standard orientation based on orient tags (please make sure they are correct)")
 
         if img_ort == 'Obl':
-            orient_tag = out[-5:-2]
+            img_ort = out[-5:-2]
+            orient_tag = 'RPI' if 'R' in img_ort else 'LPI'
         else:
             orient_tag = 'RPI' if 'R' in img_ort else 'LPI'
+        print(orient_tag)
         orient_img(in_img_file, orient_tag, out_img_file)
 
 
@@ -173,6 +177,14 @@ def threshold_img(t1, training_mod, thresh_val, thresh_file):
         threshold.run()
 
 
+def normalize_sample_wise_img(in_file, out_file):
+    image = nib.load(in_file)
+    img = image.get_data()
+    # standardize intensity for data
+    print("\n standardizing ...")
+    std_img = (img - img.mean()) / img.std()
+    nib.save(nib.Nifti1Image(std_img, image.affine), out_file)
+
 def standard_img(in_file, std_file):
     """
     Orient image in standard orientation
@@ -188,9 +200,10 @@ def standard_img(in_file, std_file):
     c3.inputs.args = "-binarize -as m %s -push m -nlw %sx%sx%s -push m -times -replace nan 0" % (in_file, nx, ny, nz)
     c3.inputs.out_file = std_file
 
-    if not os.path.exists(std_file):
+    if os.path.exists(std_file):
+        print("\n %s already exists" % std_file)
+    else:
         c3.run()
-
 
 def get_largest_two_comps(in_img, out_comps):
     """
@@ -205,27 +218,10 @@ def get_largest_two_comps(in_img, out_comps):
 
     nib.save(comb_comps, out_comps)
 
-
-def trim_img_to_size(in_img, trimmed_img):
-    """
-    Trim image to specific size (112x112x64mm)
-    :param in_img: input image
-    :param trimmed_img: trimmed image
-    """
-    c3 = C3d()
-    c3.inputs.in_file = in_img
-    c3.inputs.args = "-trim-to-size 112x112x64mm"
-    c3.inputs.out_file = trimmed_img
-
-    if not os.path.exists(trimmed_img):
-        print("\n extracting hippocampus region")
-        c3.run()
-
-
 def reslice_like(in_img, ref_img, trimmed_img):
     c3 = C3d()
     c3.inputs.in_file = ref_img
-    c3.inputs.args = "%s -reslice-identity -interpolation Cubic" % in_img
+    c3.inputs.args = "%s -reslice-identity" % in_img
     c3.inputs.out_file = trimmed_img
     c3.run()
 
@@ -245,30 +241,59 @@ def split_seg_sides(in_bin_seg_file, out_seg_file):
     l_orient_nii = ('L', 'A', 'S')
 
     if seg_ort == l_orient_nii:
-        # new = in_bin_seg.get_data()[mid:-1, :, :]
-        # new[new == 1] = 2
-        # out_seg[mid:-1, :, :] = 2
-
-        out_seg[0:mid, :, :] = 0
-        out_seg = out_seg + in_bin_seg.get_data()
+        new = in_bin_seg.get_data()[mid:-1, :, :]
+        new[new == 1] = 2
+        out_seg[mid:-1, :, :] = new
     elif seg_ort == r_orient_nii:
-        # new = in_bin_seg.get_data()[0:mid, :, :]
-        # new[new == 1] = 2
-        # out_seg[0:mid, :, :] = 2
+        new = in_bin_seg.get_data()[0:mid, :, :]
+        new[new == 1] = 2
+        out_seg[0:mid, :, :] = new
 
-        out_seg[mid:-1, :, :] = 0
-        out_seg = out_seg + in_bin_seg.get_data()
-
-    print(out_seg.max())
     out_seg_nii = nib.Nifti1Image(out_seg, in_bin_seg.affine)
 
     nib.save(out_seg_nii, out_seg_file)
 
+def trim(img, out, voxels=1):
+    c3 = C3d()
+    c3.inputs.in_file = img
+    c3.inputs.args = "-trim %svox" % voxels
+    c3.inputs.out_file = out
+    if not os.path.exists(out):
+        print("\n cropping")
+        c3.run()
+
+def trim_like(img, ref, out, interp = 0):
+    c3 = C3d()
+    c3.inputs.in_file = ref
+    c3.inputs.args = "-int %s %s -reslice-identity" % (interp, img)
+    c3.inputs.out_file = out
+    if not os.path.exists(out):
+        print("\n cropping like")
+        c3.run()
+
+def trim_img_to_size(in_img, trimmed_img):
+    """
+    Trim image to specific size (112x112x64mm)
+    :param in_img: input image
+    :param trimmed_img: trimmed image
+    """
+    # trim(in_img, trimmed_img, voxels=20)
+    # file_shape = nib.load(trimmed_img).shape
+    # print(file_shape)
+
+    c3 = C3d()
+    c3.inputs.in_file = in_img
+    c3.inputs.args = "-trim-to-size 112x112x64vox"
+    # c3.inputs.args = "-trim-to-size %sx%sx%svox" % (file_shape[0], file_shape[0], int(file_shape[0]/2))
+    c3.inputs.out_file = trimmed_img
+
+    # if not os.path.exists(trimmed_img):
+    #     print("\n extracting hippocampus region")
+    c3.run()
+
 # --------------
 # Main function
 # --------------
-
-
 def main(args):
     """
     Segment hippocampus using a trained CNN
@@ -291,13 +316,13 @@ def main(args):
         start_time = datetime.now()
 
         hfb = os.path.realpath(__file__)
-        hyper_dir = str(Path(hfb).parents[2])
+        hyper_dir = Path(hfb).parents[2]
 
         model_json = os.path.join(hyper_dir, 'models', 'hipp_model.json')
         model_weights = os.path.join(hyper_dir, 'models', 'hipp_model_weights.h5')
 
         assert os.path.exists(
-            model_weights), "%s model does not exist ... please download and rerun script" % model_weights
+            model_weights), "%s model does not exits ... please download and rerun script" % model_weights
 
         # pred preprocess dir
         pred_dir = os.path.join('%s' % os.path.abspath(subj_dir), 'pred_process')
@@ -330,14 +355,18 @@ def main(args):
         std_file = os.path.join(pred_dir, "%s_thresholded_standardized.nii.gz" % os.path.basename(t1).split('.')[0])
         standard_img(thresh_file, std_file)
 
+        # cropping
+        crop_file = os.path.join(pred_dir, "%s_thresholded_standardized_cropped.nii.gz" % os.path.basename(t1).split('.')[0])
+        trim(std_file, crop_file)
+
         # resample images
-        t1_img = nib.load(std_file)
-        res = resample(t1_img, [160, 160, 128])
+        t1_crop_img = nib.load(crop_file)
+        res = resample(t1_crop_img, [160, 160, 128])
         res_file = os.path.join(pred_dir, "%s_thresholded_resampled.nii.gz" % os.path.basename(t1).split('.')[0])
         res.to_filename(res_file)
 
         std = nib.load(res_file)
-        test_data = np.zeros((1, 1, 160, 160, 128), dtype=t1_img.get_data_dtype())
+        test_data = np.zeros((1, 1, 160, 160, 128), dtype=t1_crop_img.get_data_dtype())
         test_data[0, 0, :, :, :] = std.get_data()
 
         print(colored("\n predicting initial hippocampus segmentation", 'green'))
@@ -346,6 +375,7 @@ def main(args):
                              affine=res.affine, output_label_map=True, labels=1)
 
         # resample back
+        t1_img = t1_ort if os.path.exists(t1_ort) else t1
         pred_res = resample_to_img(pred, t1_img)
         pred_th = math_img('img > 0.5', img=pred_res)
 
@@ -355,11 +385,13 @@ def main(args):
 
         # trim seg to size
         trim_seg = os.path.join(pred_dir, "%s_hipp_init_pred_trimmed.nii.gz" % subj)
-        trim_img_to_size(init_pred_name, trim_seg)
+        trim(init_pred_name, trim_seg, voxels=10)
+        #trim_img_to_size(init_pred_name, trim_seg)
 
         # trim t1
         t1_zoom = os.path.join(pred_dir, "%s_hipp_region.nii.gz" % subj)
-        trim_like.main(['-i %s' % thresh_file, '-r %s' % trim_seg, '-o %s' % t1_zoom])
+        #trim_like.main(['-i %s' % thresh_file, '-r %s' % trim_seg, '-o %s' % t1_zoom])
+        trim_like(in_thresh, trim_seg, t1_zoom, interp=3)
 
         # --------------
         # 2nd model
@@ -372,9 +404,10 @@ def main(args):
                                   dtype=t1_zoom_img.get_data_dtype())
 
         # standardize
-        std_file_trim = os.path.join(pred_dir, "%s_trimmed_thresholded_standardized.nii.gz"
+        std_file_trim = os.path.join(pred_dir, "%s_trimmed_standardized.nii.gz"
                                      % os.path.basename(t1).split('.')[0])
-        standard_img(t1_zoom, std_file_trim)
+        #standard_img(t1_zoom, std_file_trim)
+        normalize_sample_wise_img(t1_zoom, std_file_trim)
 
         # resample images
         t1_img = nib.load(std_file_trim)
@@ -384,8 +417,8 @@ def main(args):
 
         test_zoom_data[0, 0, :, :, :] = res_zoom.get_data()
 
-        model_zoom_json = os.path.join(hyper_dir, 'models', 'hipp_zoom_mcdp_model.json')
-        model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_mcdp_model_weights.h5')
+        model_zoom_json = os.path.join(hyper_dir, 'models', 'hipp_zoom_full_mcdp_model.json')
+        model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_full_mcdp_model_weights.h5')
 
         assert os.path.exists(
             model_zoom_weights), "%s model does not exits ... please download and rerun script" % model_zoom_weights
@@ -398,9 +431,8 @@ def main(args):
             pred = run_test_case(test_data=test_zoom_data, model_json=model_zoom_json, model_weights=model_zoom_weights,
                                  affine=res_zoom.affine, output_label_map=True, labels=1)
             pred_zoom_s[sample_id, :, :, :] = pred.get_data()
-            nib.save(pred, os.path.join(pred_dir, "hipp_pred_%s.nii.gz" % sample_id))
+            # nib.save(pred, os.path.join(pred_dir, "hipp_pred_%s.nii.gz" % sample_id))
 
-        # computing mean
         pred_zoom_mean = pred_zoom_s.mean(axis=0)
         # pred_zoom_mean = np.median(pred_zoom_s, axis=0)
         pred_zoom = nib.Nifti1Image(pred_zoom_mean, res_zoom.affine)
@@ -426,6 +458,19 @@ def main(args):
 
         # split seg sides
         split_seg_sides(bin_prediction, prediction)
+
+        # ##### compute and resample entropy uncertainty  ######
+        # pred_zoom_s = np.unique(pred_zoom_s, axis=0)
+        # uncertainty_entropy_ = -1 * np.sum(np.log(pred_zoom_s) * pred_zoom_s, axis=0)
+        # uncertainty_entropy = nib.Nifti1Image(uncertainty_entropy_, res_zoom.affine)
+        #
+        # uncertainty_entropy_res = resample_to_img(uncertainty_entropy, t1_zoom_img)
+        # uncertainty_entropy_name = os.path.join(pred_dir, "%s_trimmed_hipp_uncertainty_entropy.nii.gz" % subj)
+        # nib.save(uncertainty_entropy_res, uncertainty_entropy_name)
+        #
+        # # expand to original size
+        # uncertainty_entropy = os.path.join(subj_dir, "%s_uncertainty_entropy.nii.gz" % subj)
+        # trim_like.main(['-i', '%s' % uncertainty_entropy_name, '-r', '%s' % t1_ref, '-o', '%s' % uncertainty_entropy])
 
         print(colored("\n generating mosaic image for qc", 'green'))
 
