@@ -13,10 +13,10 @@ import numpy as np
 import nibabel as nib
 import subprocess
 from nilearn.image import reorder_img, resample_img, resample_to_img, math_img, largest_connected_component_img
-from hypermatter.deep.predict import run_test_case
-from hypermatter.utils import endstatement
-from hypermatter.preprocess import biascorr, trim_like
-from hypermatter.qc import seg_qc
+from hippmapper.deep.predict import run_test_case
+from hippmapper.utils import endstatement
+from hippmapper.preprocess import biascorr, trim_like
+from hippmapper.qc import seg_qc
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
 from termcolor import colored
@@ -30,11 +30,11 @@ def parsefn():
                                            "works best with a bias-corrected with-skull or skull-tripped image in"
                                            " standard orientation (RPI or LPI)\n\n"
                                            "Examples: \n"
-                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz \n"
+                                           "    hippmapper seg_hipp -t1 my_subj/mprage.nii.gz \n"
                                            "OR (to bias-correct before and overwrite existing segmentation)\n"
-                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
+                                           "    hippmapper seg_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
                                            "OR (to run for subj - looks for my_subj_T1_nu.nii.gz)\n"
-                                           "    hypermatter segment_hipp -s my_subj \n")
+                                           "    hippmapper seg_hipp -s my_subj \n")
 
     optional = parser.add_argument_group('optional arguments')
 
@@ -316,13 +316,13 @@ def main(args):
         start_time = datetime.now()
 
         hfb = os.path.realpath(__file__)
-        hyper_dir = Path(hfb).parents[2]
+        hyper_dir = str(Path(hfb).parents[2])
 
         model_json = os.path.join(hyper_dir, 'models', 'hipp_model.json')
         model_weights = os.path.join(hyper_dir, 'models', 'hipp_model_weights.h5')
 
         assert os.path.exists(
-            model_weights), "%s model does not exits ... please download and rerun script" % model_weights
+            model_weights), "%s model does not exist ... please download and rerun script" % model_weights
 
         # pred preprocess dir
         pred_dir = os.path.join('%s' % os.path.abspath(subj_dir), 'pred_process')
@@ -421,7 +421,7 @@ def main(args):
         model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_full_mcdp_model_weights.h5')
 
         assert os.path.exists(
-            model_zoom_weights), "%s model does not exits ... please download and rerun script" % model_zoom_weights
+            model_zoom_weights), "%s model does not exist ... please download and rerun script" % model_zoom_weights
 
         print(colored("\n predicting hippocampus segmentation using MC Dropout with %s samples" % num_mc, 'green'))
 
