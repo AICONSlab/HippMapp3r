@@ -322,7 +322,7 @@ def main(args):
         model_weights = os.path.join(hyper_dir, 'models', 'hipp_model_weights.h5')
 
         assert os.path.exists(
-            model_weights), "%s model does not exits ... please download and rerun script" % model_weights
+            model_weights), "%s model does not exist ... please download and rerun script" % model_weights
 
         # pred preprocess dir
         pred_dir = os.path.join('%s' % os.path.abspath(subj_dir), 'pred_process')
@@ -421,7 +421,7 @@ def main(args):
         model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_full_mcdp_model_weights.h5')
 
         assert os.path.exists(
-            model_zoom_weights), "%s model does not exits ... please download and rerun script" % model_zoom_weights
+            model_zoom_weights), "%s model does not exist ... please download and rerun script" % model_zoom_weights
 
         print(colored("\n predicting hippocampus segmentation using MC Dropout with %s samples" % num_mc, 'green'))
 
