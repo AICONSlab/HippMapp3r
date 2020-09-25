@@ -30,11 +30,11 @@ def parsefn():
                                            "works best with a bias-corrected with-skull or skull-tripped image in"
                                            " standard orientation (RPI or LPI)\n\n"
                                            "Examples: \n"
-                                           "    hippmapper seg_hipp -t1 my_subj/mprage.nii.gz \n"
+                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz \n"
                                            "OR (to bias-correct before and overwrite existing segmentation)\n"
-                                           "    hippmapper seg_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
+                                           "    hypermatter segment_hipp -t1 my_subj/mprage.nii.gz -b -f \n"
                                            "OR (to run for subj - looks for my_subj_T1_nu.nii.gz)\n"
-                                           "    hippmapper seg_hipp -s my_subj \n")
+                                           "    hypermatter segment_hipp -s my_subj \n")
 
     optional = parser.add_argument_group('optional arguments')
 
@@ -138,24 +138,31 @@ def check_orient(in_img_file, r_orient, l_orient, out_img_file):
         print(orient_tag)
         orient_img(in_img_file, orient_tag, out_img_file)
 
+def resample(image, new_shape, interpolation="linear"):
+    # """
+    # Resample image to new shape
+    # :param image: input image
+    # :param new_shape: chosen shape
+    # :param interpolation: interpolation method
+    # :return: resampled image
+    # """
+    # input_shape = np.asarray(image.shape, dtype=image.get_data_dtype())
+    # ras_image = reorder_img(image, resample=interpolation)
+    # output_shape = np.asarray(new_shape)
+    # new_spacing = input_shape / output_shape
+    # new_affine = np.copy(ras_image.affine)
+    # new_affine[:3, :3] = ras_image.affine[:3, :3] * np.diag(new_spacing)
+    #
+    # return resample_img(ras_image, target_affine=new_affine, target_shape=output_shape, interpolation=interpolation)
 
-def resample(image, new_shape, interpolation="continuous"):
-    """
-    Resample image to new shape
-    :param image: input image
-    :param new_shape: chosen shape
-    :param interpolation: interpolation method
-    :return: resampled image
-    """
-    input_shape = np.asarray(image.shape, dtype=image.get_data_dtype())
-    ras_image = reorder_img(image, resample=interpolation)
-    output_shape = np.asarray(new_shape)
-    new_spacing = input_shape / output_shape
-    new_affine = np.copy(ras_image.affine)
-    new_affine[:3, :3] = ras_image.affine[:3, :3] * np.diag(new_spacing)
-
-    return resample_img(ras_image, target_affine=new_affine, target_shape=output_shape, interpolation=interpolation)
-
+    image = reorder_img(image, resample=interpolation)
+    zoom_level = np.divide(new_shape, image.shape)
+    new_spacing = np.divide(image.header.get_zooms(), zoom_level)
+    new_data = resample_to_spacing(image.get_data(), image.header.get_zooms(), new_spacing, interpolation=interpolation)
+    new_affine = np.copy(image.affine)
+    np.fill_diagonal(new_affine, new_spacing.tolist() + [1])
+    new_affine[:3, 3] += calculate_origin_offset(new_spacing, image.header.get_zooms())
+    return new_img_like(image, new_data, affine=new_affine)
 
 def threshold_img(t1, training_mod, thresh_val, thresh_file):
     """
@@ -233,24 +240,56 @@ def split_seg_sides(in_bin_seg_file, out_seg_file):
     :param out_seg_file: output segmentation with both sides
     """
     in_bin_seg = nib.load(in_bin_seg_file)
-    mid = int(in_bin_seg.shape[0] / 2)
     out_seg = in_bin_seg.get_data().copy()
     seg_ort = nib.aff2axcodes(in_bin_seg.affine)
+    # print(seg_ort)
+    if 'L' in seg_ort:
+        if seg_ort.index('L') == 0:
+            mid = int(in_bin_seg.shape[0] / 2)
+            new = in_bin_seg.get_data()[mid:-1, :, :]
+            new[new == 1] = 2
+            out_seg[mid:-1, :, :] = new
+        elif seg_ort.index('L') == 1:
+            mid = int(in_bin_seg.shape[1] / 2)
+            new = in_bin_seg.get_data()[:, mid:-1, :]
+            new[new == 1] = 2
+            out_seg[:, mid:-1, :] = new
+        elif seg_ort.index('L') == 2:
+            mid = int(in_bin_seg.shape[2] / 2)
+            new = in_bin_seg.get_data()[:, :, mid:-1]
+            new[new == 1] = 2
+            out_seg[:, :, mid:-1] = new
+    elif 'R' in seg_ort:
+        print(seg_ort.index('R'))
+        if seg_ort.index('R') == 0:
+            mid = int(in_bin_seg.shape[0] / 2)
+            new = in_bin_seg.get_data()[0:mid, :, :]
+            new[new == 1] = 2
+            out_seg[0:mid, :, :] = new
+        elif seg_ort.index('R') == 1:
+            mid = int(in_bin_seg.shape[1] / 2)
+            new = in_bin_seg.get_data()[:, 0:mid, :]
+            new[new == 1] = 2
+            out_seg[:, 0:mid, :] = new
+        elif seg_ort.index('R') == 2:
+            mid = int(in_bin_seg.shape[2] / 2)
+            new = in_bin_seg.get_data()[:, :, 0:mid]
+            new[new == 1] = 2
+            out_seg[:, :, 0:mid] = new
 
-    r_orient_nii = ('R', 'A', 'S')
-    l_orient_nii = ('L', 'A', 'S')
+    # r_orient_nii = ('R', 'A', 'S')
+    # l_orient_nii = ('L', 'A', 'S')
 
-    if seg_ort == l_orient_nii:
-        new = in_bin_seg.get_data()[mid:-1, :, :]
-        new[new == 1] = 2
-        out_seg[mid:-1, :, :] = new
-    elif seg_ort == r_orient_nii:
-        new = in_bin_seg.get_data()[0:mid, :, :]
-        new[new == 1] = 2
-        out_seg[0:mid, :, :] = new
+    # if orient_dir == l_orient_nii:
+    #     new = in_bin_seg.get_data()[mid:-1, :, :]
+    #     new[new == 1] = 2
+    #     out_seg[mid:-1, :, :] = new
+    # elif orient_dir == r_orient_nii:
+    #     new = in_bin_seg.get_data()[0:mid, :, :]
+    #     new[new == 1] = 2
+    #     out_seg[0:mid, :, :] = new
 
     out_seg_nii = nib.Nifti1Image(out_seg, in_bin_seg.affine)
-
     nib.save(out_seg_nii, out_seg_file)
 
 def trim(img, out, voxels=1):
@@ -316,13 +355,13 @@ def main(args):
         start_time = datetime.now()
 
         hfb = os.path.realpath(__file__)
-        hyper_dir = str(Path(hfb).parents[2])
+        hyper_dir = Path(hfb).parents[2]
 
         model_json = os.path.join(hyper_dir, 'models', 'hipp_model.json')
         model_weights = os.path.join(hyper_dir, 'models', 'hipp_model_weights.h5')
 
         assert os.path.exists(
-            model_weights), "%s model does not exist ... please download and rerun script" % model_weights
+            model_weights), "%s model does not exits ... please download and rerun script" % model_weights
 
         # pred preprocess dir
         pred_dir = os.path.join('%s' % os.path.abspath(subj_dir), 'pred_process')
@@ -348,7 +387,7 @@ def main(args):
 
         # threshold at 10 percentile of non-zero voxels
         thresh_file = os.path.join(pred_dir, "%s_thresholded.nii.gz" % os.path.basename(t1).split('.')[0])
-        in_thresh = t1_ort if os.path.exists(t1_ort) else t1
+        in_thresh = t1_ort if os.path.exists(t1_ort) else in_ort
         threshold_img(in_thresh, training_mod, 10, thresh_file)
 
         # standardize
@@ -421,7 +460,7 @@ def main(args):
         model_zoom_weights = os.path.join(hyper_dir, 'models', 'hipp_zoom_full_mcdp_model_weights.h5')
 
         assert os.path.exists(
-            model_zoom_weights), "%s model does not exist ... please download and rerun script" % model_zoom_weights
+            model_zoom_weights), "%s model does not exits ... please download and rerun script" % model_zoom_weights
 
         print(colored("\n predicting hippocampus segmentation using MC Dropout with %s samples" % num_mc, 'green'))
 
@@ -439,12 +478,13 @@ def main(args):
 
         # resample back
         pred_zoom_res = resample_to_img(pred_zoom, t1_zoom_img)
-        pred_zoom_name = os.path.join(pred_dir, "%s_trimmed_hipp_pred_mean_prob.nii.gz" % subj)
+        pred_zoom_name = os.path.join(pred_dir, "%s_trimmed_hipp_pred_prob.nii.gz" % subj)
         nib.save(pred_zoom_res, pred_zoom_name)
 
         # reslice like
         t1_ref = t1_ort if os.path.exists(t1_ort) else t1
-        pred_zoom_res_t1 = os.path.join(pred_dir, "%s_%s_hipp_pred_mean.nii.gz" % (subj, pred_name))
+
+        pred_zoom_res_t1 = os.path.join(pred_dir, "%s_%s_hipp_pred_prob.nii.gz" % (subj, pred_name))
         reslice_like(pred_zoom_name, t1_ref, pred_zoom_res_t1)
 
         # thr
