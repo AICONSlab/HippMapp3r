@@ -17,10 +17,10 @@ from hippmapper.deep.predict import run_test_case
 from hippmapper.utils import endstatement
 from hippmapper.preprocess import biascorr, trim_like
 from hippmapper.qc import seg_qc
+from hippmapper.utils.sitk_utils import resample_to_spacing, calculate_origin_offset
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
 from termcolor import colored
-from hypermatter.utils.sitk_utils import resample_to_spacing, calculate_origin_offset
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
