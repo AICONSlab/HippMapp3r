@@ -20,6 +20,7 @@ from hippmapper.qc import seg_qc
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
 from termcolor import colored
+from hypermatter.utils.sitk_utils import resample_to_spacing, calculate_origin_offset
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
