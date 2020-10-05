@@ -37,7 +37,7 @@ setup(
     ],
     install_requires=[
         'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras', 'nilearn', 'scikit-learn',
-        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5'
+        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5', 'SimpleITK'
     ],
     extras_require={
         "hippmapper": ["tensorflow"],
