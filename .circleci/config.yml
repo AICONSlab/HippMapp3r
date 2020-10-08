@@ -42,7 +42,7 @@ jobs:
              echo "Runing tests:"
              # docker run -it mgoubran/hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz
              docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp --help"
-             docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz"
+             docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz -f"
 
       - store_test_results:
           path: /home/circleci/out/tests
