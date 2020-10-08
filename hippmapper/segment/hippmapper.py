@@ -12,7 +12,8 @@ import argparse
 import numpy as np
 import nibabel as nib
 import subprocess
-from nilearn.image import reorder_img, resample_img, resample_to_img, math_img, largest_connected_component_img
+from nilearn.image import resample_img, resample_to_img, math_img, largest_connected_component_img
+from nilearn.image import reorder_img, new_img_like
 from hippmapper.deep.predict import run_test_case
 from hippmapper.utils import endstatement
 from hippmapper.preprocess import biascorr, trim_like
