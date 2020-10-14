@@ -36,8 +36,8 @@ setup(
         'git+https://github.com/keras-team/keras-contrib.git'
     ],
     install_requires=[
-        'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras', 'nilearn', 'scikit-learn',
-        'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5', 'SimpleITK'
+        'nibabel', 'nipype', 'argparse', 'argcomplete', 'joblib', 'keras==2.1.2', 'nilearn', 'scikit-learn',
+        'keras-contrib', 'pandas', 'numpy==1.16.4', 'plotly', 'PyQt5', 'SimpleITK'
     ],
     extras_require={
         "hippmapper": ["tensorflow==1.15"],
