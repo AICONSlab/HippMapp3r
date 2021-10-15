@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y git wget build-essential g++ gcc cmake 
     apt-get install -y python3-pip python3-dev && \
     cd /usr/local/bin/ && \
     ln -s /usr/bin/python3 python && \
-    pip3 install --upgrade pip && \
+    pip3 install --upgrade pip==20.3.4 && \
     cd ~
 
 # Install c3d
@@ -59,4 +59,4 @@ RUN mkdir -p /src/hippmapp3r/models && \
     rm -rf /tmp/cookies.txt
 
 # Run hippmapper when the container launches
-ENTRYPOINT /bin/bash
+# ENTRYPOINT /bin/bash

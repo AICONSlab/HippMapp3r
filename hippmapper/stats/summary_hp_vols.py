@@ -13,7 +13,7 @@ warnings.filterwarnings("ignore")
 
 def parsefn():
     parser = argparse.ArgumentParser(description='Generates volumetric summary of hippocampus segmentations',
-                                     usage="%(prog)s -i [ in_dir ] -o [ out_csv ]")
+                                     usage="%(prog)s -i [ in_dir ] -o [ out_csv ] -m [ mask ]")
 
     required = parser.add_argument_group('required arguments')
 
@@ -21,7 +21,8 @@ def parsefn():
                           help='input directory containing subjects')
     required.add_argument('-o', '--out_csv', type=str, metavar='',
                           help='output stats ex: hp_vols_summary.csv', default='hipp_volumes.csv')
-
+    required.add_argument('-m', '--mask', type=str, metavar='',
+                          help='mask name ex: hipp_pred.nii.gz', default='hipp_pred.nii.gz')
     return parser
 
 
@@ -32,17 +33,17 @@ def parse_inputs(parser, args):
 
     input_dir = args.in_dir
     out_csv = args.out_csv
+    mask_name = args.mask
 
-    return input_dir, out_csv
+    return input_dir, out_csv, mask_name
 
 
 def main(args):
     parser = parsefn()
-    input_dir, out_csv = parse_inputs(parser, args)
+    input_dir, out_csv, mask_name = parse_inputs(parser, args)
 
     hp_label = [1, 2]
     hp_abb = ['Right_HP', 'Left_HP']
-    mask_name = 'hipp_pred.nii.gz'
 
     subjs_dirs = [subj for subj in os.listdir(input_dir) if os.path.isdir(os.path.join(input_dir, subj))]
     index = []
@@ -51,10 +52,8 @@ def main(args):
     for i in range(0, len(subjs_dirs)):
         my_index.append(i)
         if glob.glob(os.path.join(input_dir, subjs_dirs[i], '*%s' % mask_name)):
-            # if os.path.isfile(os.path.join(input_dir, subjs_dirs[i], subjs_dirs[i] + mask_name)):
             print('reading ', subjs_dirs[i])
             index.append(subjs_dirs[i])
-            # mask = nib.load(os.path.join(input_dir, subjs_dirs[i], subjs_dirs[i] + mask_name))
             mask = nib.load(glob.glob(os.path.join(input_dir, subjs_dirs[i], '*%s' % mask_name))[0])
             mask_data = mask.get_data()
             mask_hdr = mask.get_header()
