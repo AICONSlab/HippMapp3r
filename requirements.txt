@@ -49,7 +49,7 @@ Keras-Preprocessing==1.0.5
 keras-rectified-adam==0.9.0
 kiwisolver==1.1.0
 lockfile==0.12.2
-lxml==4.3.3
+lxml==4.6.5
 mahotas==1.4.9
 Markdown==3.0.1
 MarkupSafe==1.1.0
