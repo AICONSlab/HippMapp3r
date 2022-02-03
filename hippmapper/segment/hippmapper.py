@@ -47,6 +47,7 @@ def parsefn():
     optional.add_argument('-o', '--out', type=str, metavar='', help="output prediction")
     optional.add_argument('-n', '--num_mc', type=int, metavar='', help="number of Monte Carlo Dropout samples",
                           default=30)
+    optional.add_argument('-th', '--thresh', type=float, metavar='', help="threshold", default=0.5)
     optional.add_argument('-f', '--force', help="overwrite existing segmentation", action='store_true')
     optional.add_argument('-ss', '--session', type=str, metavar='', help="input session for longitudinal studies")
     optional.add_argument("-ign_ort", "--ign_ort",  action='store_true',
@@ -96,13 +97,15 @@ def parse_inputs(parser, args):
 
     out = args.out if args.out is not None else None
 
+    thresh = args.thresh
+
     force = True if args.force else False
 
     ign_ort = True if args.ign_ort else False
 
     num_mc = args.num_mc
 
-    return subj_dir, subj, t1, out, bias, ign_ort, num_mc, force
+    return subj_dir, subj, t1, out, bias, ign_ort, num_mc, thresh, force
 
 
 def orient_img(in_img_file, orient_tag, out_img_file):
@@ -342,7 +345,7 @@ def main(args):
     :return: prediction (segmentation file)
     """
     parser = parsefn()
-    subj_dir, subj, t1, out, bias, ign_ort, num_mc, force = parse_inputs(parser, args)
+    subj_dir, subj, t1, out, bias, ign_ort, num_mc, thresh, force = parse_inputs(parser, args)
     pred_name = 'T1acq_hipp_pred' if hasattr(args, 'subj') else 'hipp_pred'
 
     if out is None:
@@ -418,7 +421,7 @@ def main(args):
         # resample back
         t1_img = t1_ort if os.path.exists(t1_ort) else t1
         pred_res = resample_to_img(pred, t1_img)
-        pred_th = math_img('img > 0.5', img=pred_res)
+        pred_th = math_img('img > %s' % thresh, img=pred_res)
 
         # largest conn comp
         init_pred_name = os.path.join(pred_dir, "%s_hipp_init_pred.nii.gz" % subj)
@@ -491,7 +494,7 @@ def main(args):
 
         # thr
         pred_zoom_res_t1_img = nib.load(pred_zoom_res_t1)
-        pred_zoom_th = math_img('img > 0.5', img=pred_zoom_res_t1_img)
+        pred_zoom_th = math_img('img > %s' % thresh, img=pred_zoom_res_t1_img)
 
         # largest 2 conn comp
         # comb_comps_zoom_bin_cmp = os.path.join(pred_dir, "%s_hipp_pred_mean_bin.nii.gz" % subj)
