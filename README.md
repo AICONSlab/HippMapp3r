@@ -15,4 +15,4 @@ ____________________________
 
 For more details, see our [docs](https://hippmapp3r.readthedocs.io).
 
-Copyright (C) 2019 BrainLab.
+Copyright (C) 2019 AICONSlab.
