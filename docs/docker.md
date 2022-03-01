@@ -40,7 +40,7 @@ To run the Docker container in an interactive shell, run
 
 
 
-## Using hippMapper on Singularity
+## Using HippMapper on Singularity
 
 Docker images can still be used on Singularity. This is especially good if you are processing images using Compute Canada clusters. The following instructions are based on the steps provided on the [Compute Canada wiki](https://docs.computecanada.ca/wiki/Singularity).
 
