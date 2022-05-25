@@ -22,9 +22,14 @@ from hippmapper.utils.sitk_utils import resample_to_spacing, calculate_origin_of
 from nipype.interfaces.fsl import maths
 from nipype.interfaces.c3 import C3d
 from termcolor import colored
+from numpy.random import seed
+from tensorflow import set_random_seed
+
 
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 
+seed(1)
+set_random_seed(1)
 
 def parsefn():
     parser = argparse.ArgumentParser(usage="%(prog)s -s [ subj ] \n\n"
