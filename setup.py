@@ -40,7 +40,7 @@ setup(
         'keras-contrib', 'pandas', 'numpy', 'plotly', 'PyQt5', 'SimpleITK'
     ],
     extras_require={
-        "hippmapper": ["tensorflow==1.15"],
+        "hippmapper": ["tensorflow==2.9.3"],
         "hippmapper_gpu": ["tensorflow-gpu==1.15"],
     },
     entry_points={'console_scripts': ['hippmapper=hippmapper.cli:main']},
