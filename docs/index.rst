@@ -14,7 +14,8 @@ Welcome to HippMapp3r's documentation!
 *HippMapp3r* (pronounced hippmapper) is a CNN-based segmentation technique of the whole hippocampus
 using MRI images from BrainLab.
 It can deal with brains with extensive atrophy and segments the hippocampi in seconds.
-It uses a T1-weighted image as the only input and segments both with-skull and skull-stripped images.
+It uses a T1-weighted image as the only input and segments skull-stripped images.
+Note: skull-stripping is a required preprocessing step if the skull is present.
 
 Copyright (C) 2019 AICONSLab.
 
