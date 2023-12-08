@@ -17,16 +17,16 @@ Click==7.0
 cryptography==2.4.2
 cycler==0.10.0
 Cython==0.29.2
-deap==1.2.2
+deap
 decorator==4.3.0
 ecdsa==0.13
 entrypoints==0.2.3
 funcsigs==1.0.2
 future==0.17.1
 gast==0.2.0
+-e git+https://github.com/mgoubran/HippMapp3r.git@master#egg=HippMapp3r
 grpcio==1.15.0
 h5py==2.8.0
--e git+https://github.com/mgoubran/HippMapp3r.git@master#egg=HippMapp3r
 html5lib==0.9999999
 idna==2.8
 importlib-metadata==0.8
@@ -122,7 +122,7 @@ terminado==0.8.1
 testpath==0.3.1
 tornado==5.1.1
 traitlets==4.3.2
-traits==4.6.0
+traits
 urllib3==1.24.1
 wcwidth==0.1.7
 webencodings==0.5.1
