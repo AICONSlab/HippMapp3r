@@ -12,7 +12,7 @@ A GUI that looks like the image below should appear. You can hover any of button
 
 ![](images/hippmapper_gui.png)
 
-You can get the command usage info by click the "Help" box on any of the pop-up windows.
+You can get the command usage info by clicking the "Help" box on any of the pop-up windows.
 
 ![](images/hippmapper_help.png)
 
