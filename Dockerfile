@@ -100,43 +100,27 @@ RUN mkdir -p /opt/ANTs && \
     | tar -xzC $ANTSPATH --strip-components 1
 ENV PATH=${ANTSPATH}:${PATH}
 
-#COPY . /src/hippmapp3r
-
-#RUN python -m pip install /src/hippmapp3r
-
-# >> BEGIN micromamba installations
-# Install Conda packages into the default "base" environment
-#USER ${MAMBA_USER}
-# # Setup host user as container user\n\
+# Setup host user as container user\n\
 ARG USER_ID=1000
 ARG GROUP_ID=1000
 ARG USER=$USER_ID:$GROUP_ID
-#ARG USER=$(id -u):$(id -g)
-# RUN addgroup --gid 1000 jacqueline
-# RUN adduser --disabled-password --gecos '' --uid 1000 --gid 1000 jacqueline
 
-# Change owner of /code directory\n\
-# Change to \$USER\n\
-#RUN mkdir -p /home/hippUser/.cache/pip
-#RUN chmod 777 /home/hippUser/.cache/pip
-
-#WORKDIR /home/hippUser
-#WORKDIR /tmp
 # Sample inline Conda environment definition; to use a file instead:
 COPY requirements.txt ./
 COPY data .
 # in line env, minimal environment, will install all requirements.txt
-COPY <<EOF environment.yml
-name: hippmapper
-channels:
-  - conda-forge
-dependencies:
-  - python >=3.6,<3.7.0a0
-  - pip
-  - pip:
-    - -rrequirements.txt
-    #- -e /src/hippmapp3r # this is already included in the requirements
-EOF
+#COPY <<EOF environment.yml
+#name: hippmapper
+#channels:
+#  - conda-forge
+#dependencies:
+#  - python >=3.6,<3.7.0a0
+#  - pip
+#  - pip:
+#    - -rrequirements.txt
+#    #- -e /src/hippmapp3r # this is already included in the requirements
+#EOF
+COPY environment.yml ./
 
 # installs all packages
 RUN : \

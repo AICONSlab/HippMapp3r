@@ -1,0 +1,9 @@
+name: hippmapper
+channels:
+  - conda-forge
+dependencies:
+  - python >=3.6,<3.7.0a0
+  - pip
+  - pip:
+    - -rrequirements.txt
+    #- -e /src/hippmapp3r # this is already included in the requirements:
