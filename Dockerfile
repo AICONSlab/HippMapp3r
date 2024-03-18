@@ -107,22 +107,24 @@ ENV PATH=${ANTSPATH}:${PATH}
 # >> BEGIN micromamba installations
 # Install Conda packages into the default "base" environment
 #USER ${MAMBA_USER}
-# Setup host user as container user\n\
+# # Setup host user as container user\n\
 ARG USER_ID=1000
 ARG GROUP_ID=1000
-ARG USER=jacqueline
-RUN addgroup --gid 1000 jacqueline
-RUN adduser --disabled-password --gecos '' --uid 1000 --gid 1000 jacqueline
+ARG USER=$USER_ID:$GROUP_ID
+#ARG USER=$(id -u):$(id -g)
+# RUN addgroup --gid 1000 jacqueline
+# RUN adduser --disabled-password --gecos '' --uid 1000 --gid 1000 jacqueline
+
 # Change owner of /code directory\n\
 # Change to \$USER\n\
-RUN mkdir -p /home/jacqueline/.cache/pip
-RUN chmod 777 /home/jacqueline/.cache/pip
+#RUN mkdir -p /home/hippUser/.cache/pip
+#RUN chmod 777 /home/hippUser/.cache/pip
 
-WORKDIR /home/jacqueline
-
+#WORKDIR /home/hippUser
+#WORKDIR /tmp
 # Sample inline Conda environment definition; to use a file instead:
 COPY requirements.txt ./
-COPY Data .
+COPY data .
 # in line env, minimal environment, will install all requirements.txt
 COPY <<EOF environment.yml
 name: hippmapper
@@ -143,14 +145,14 @@ RUN : \
 
 
 # Download models, store in directory
-RUN mkdir -p /home/jacqueline/src/hippmapp3r/models && \
-    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1RUE3Cw_rpKnKfwlu75kLbkcr9hde9nV4' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1RUE3Cw_rpKnKfwlu75kLbkcr9hde9nV4" -O /home/jacqueline/src/hippmapp3r/models/hipp_model.json && \
+RUN mkdir -p /tmp/src/hippmapp3r/models && \
+    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1RUE3Cw_rpKnKfwlu75kLbkcr9hde9nV4' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1RUE3Cw_rpKnKfwlu75kLbkcr9hde9nV4" -O /tmp/src/hippmapp3r/models/hipp_model.json && \
     rm -rf /tmp/cookies.txt && \
-    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1_VEOScLGyr1qV-t-zggq8Lxwgf_z-IpQ' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1_VEOScLGyr1qV-t-zggq8Lxwgf_z-IpQ" -O /home/jacqueline/src/hippmapp3r/models/hipp_model_weights.h5 && \
+    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1_VEOScLGyr1qV-t-zggq8Lxwgf_z-IpQ' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1_VEOScLGyr1qV-t-zggq8Lxwgf_z-IpQ" -O /tmp/src/hippmapp3r/models/hipp_model_weights.h5 && \
     rm -rf /tmp/cookies.txt && \
-    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1VN4XoFEH3PiykwXVxo-W1If7ksdIWakm' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1VN4XoFEH3PiykwXVxo-W1If7ksdIWakm" -O /home/jacqueline/src/hippmapp3r/models/hipp_zoom_full_mcdp_model.json && \
+    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=1VN4XoFEH3PiykwXVxo-W1If7ksdIWakm' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=1VN4XoFEH3PiykwXVxo-W1If7ksdIWakm" -O /tmp/src/hippmapp3r/models/hipp_zoom_full_mcdp_model.json && \
     rm -rf /tmp/cookies.txt && \
-    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=11im69_c78zQsx4EyShDmeSrGCzFJewJ6' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=11im69_c78zQsx4EyShDmeSrGCzFJewJ6" -O /home/jacqueline/src/hippmapp3r/models/hipp_zoom_full_mcdp_model_weights.h5 && \
+    wget --no-check-certificate --load-cookies /tmp/cookies.txt "https://docs.google.com/uc?export=download&confirm=$(wget --quiet --save-cookies /tmp/cookies.txt --keep-session-cookies --no-check-certificate 'https://docs.google.com/uc?export=download&id=11im69_c78zQsx4EyShDmeSrGCzFJewJ6' -O- | sed -rn 's/.*confirm=([0-9A-Za-z_]+).*/\1\n/p')&id=11im69_c78zQsx4EyShDmeSrGCzFJewJ6" -O /tmp/src/hippmapp3r/models/hipp_zoom_full_mcdp_model_weights.h5 && \
     rm -rf /tmp/cookies.txt
 # << END hippmapper specific stuff
 #RUN ln -s /usr/bin/fsl5.0-fslmaths /usr/local/bin/fslmaths
@@ -169,6 +171,6 @@ RUN : \
   && python --version \
   && python -c "import hippmapper; print(hippmapper.__version__)"
   
-USER jacqueline
+#USER hippUser
 
 

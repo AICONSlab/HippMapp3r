@@ -14,7 +14,7 @@ from hippmapper import gui
 from hippmapper.segment import hippmapper
 from hippmapper.convert import filetype
 from hippmapper.preprocess import biascorr, trim_like
-from hippmapper.qc import seg_qc
+from hippmapper.qc import seg_qc, reg_svg
 from hippmapper.stats import summary_hp_vols
 from hippmapper.utils.path_manager import add_paths
 
@@ -44,6 +44,8 @@ def run_hp_seg_summary(args):
 def run_seg_qc(args):
     seg_qc.main(args)
 
+def run_reg_svg(args):
+    reg_svg.main(args)
 
 def run_utils_biascorr(args):
     biascorr.main(args)
