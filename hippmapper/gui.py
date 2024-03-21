@@ -93,6 +93,12 @@ nested_dict = {
                 'script': 'seg_qc',
                 'opts': '-t seg_qc -v img seg -f out',
                 'helpmsg': 'Creates tiled mosaic of segmentation overlaid on structural image'
+            },
+            1: {
+                'name': 'Segmentation reg_svg',
+                'script': 'reg_svg',
+                'opts': '-f -r',
+                'helpmsg': ''
             }
         }
     },

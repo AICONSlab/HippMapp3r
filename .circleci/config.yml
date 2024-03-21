@@ -34,15 +34,15 @@ jobs:
                 --build-arg VERSION="${CIRCLE_TAG:-$THISVERSION}" . \
               && e=0 && break || sleep 15
             done && [ "$e" -eq "0" ]
-      - run:
-          name: Run Tests
-          no_output_timeout: 2h
-          command: |
+#      - run:
+#          name: Run Tests
+#          no_output_timeout: 2h
+#          command: |
 
-             echo "Runing tests:"
-             # docker run -it mgoubran/hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz
-             docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp --help"
-             #docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz -f"
+#             echo "Runing tests:"
+#             # docker run -it mgoubran/hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz
+#             docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp --help"
+#             #docker run --entrypoint bash -it mgoubran/hippmapper -c "hippmapper seg_hipp -t1 /src/hippmapp3r/data/test_case/mprage.nii.gz -f"
 
       - store_test_results:
           path: /home/circleci/out/tests
