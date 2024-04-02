@@ -2,13 +2,13 @@
 
 ## GUI
 
-Watch this video tutorial:
+<!-- Watch this video tutorial:
 
 [![IMAGE ALT TEXT](https://img.youtube.com/vi/QF-1oIQ4eRA/0.jpg)](https://youtu.be/QF-1oIQ4eRA "Hipp Seg")
 
 -----
 
-Or follow the steps below:
+Or follow the steps below: -->
 
 After opening the HippMapper GUI, click "Hippocampus" under the "Segmentation" tab. Wait for a new pop-up window to appear. The window should look like the image below.
 
