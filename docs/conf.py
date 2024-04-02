@@ -17,6 +17,7 @@
 # sys.path.insert(0, os.path.abspath('.'))
 
 
+import myst_parser
 # -- Project information -----------------------------------------------------
 
 project = 'HippMapp3r'
@@ -39,6 +40,7 @@ release = ''
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
 extensions = [
+   "myst_parser"
 ]
 
 # Add any paths that contain templates here, relative to this directory.
